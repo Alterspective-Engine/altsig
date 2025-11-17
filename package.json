@@ -1,0 +1,45 @@
+{
+  "name": "altsig",
+  "version": "1.0.0",
+  "description": "Alterspective Email Signature Generator - Web-based signature generator for Alterspective employees",
+  "main": "public/index.html",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project='Mobile Chrome' --project='Mobile Safari'",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "test:codegen": "playwright codegen",
+    "serve": "npx serve public",
+    "preview": "npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alterspective/altsig.git"
+  },
+  "keywords": [
+    "email-signature",
+    "signature-generator",
+    "alterspective",
+    "html-email",
+    "outlook",
+    "azure-static-web-apps"
+  ],
+  "author": "Alterspective",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alterspective/altsig/issues"
+  },
+  "homepage": "https://github.com/alterspective/altsig#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

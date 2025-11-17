@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterspective Email Signature Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #08233D 0%, #2C8248 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #08233D;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ABDD65;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #08233D;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2C8248;
+        }
+
+        .form-group .hint {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .btn {
+            background: #2C8248;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #236b39;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        #preview {
+            min-height: 200px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        #htmlOutput {
+            background: #2d2d2d;
+            color: #ABDD65;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background: #08233D;
+        }
+
+        .btn-secondary:hover {
+            background: #0a2d4f;
+        }
+
+        .success-message {
+            background: #ABDD65;
+            color: #08233D;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1><img src="alterspective-logo.png" alt="Alterspective" style="height: 40px; vertical-align: middle; margin-right: 15px;">Alterspective Email Signature Generator</h1>
+            <p>Create professional email signatures for your team</p>
+        </div>
+
+        <div class="main-grid">
+            <!-- Input Form -->
+            <div class="card">
+                <h2>Employee Information</h2>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" placeholder="e.g., Igor Jericevich" value="Igor Jericevich">
+                    <div class="hint">First and Last Name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobTitle">Job Title *</label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Managing Director" value="Managing Director">
+                    <div class="hint">Official position</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" placeholder="e.g., name@alterspective.com.au" value="igor.jericevich@alterspective.com.au">
+                    <div class="hint">Company email</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile Number *</label>
+                    <input type="tel" id="mobile" placeholder="e.g., 0488 180 044" value="0488 180 044">
+                    <div class="hint">Australian format (with spaces)</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="website">Website (optional)</label>
+                    <input type="text" id="website" placeholder="alterspective.com.au" value="alterspective.com.au">
+                    <div class="hint">Leave default or customize</div>
+                </div>
+
+                <button class="btn" onclick="generateSignature()">🚀 Generate Signature</button>
+            </div>
+
+            <!-- Preview & Output -->
+            <div class="card">
+                <h2>Live Preview</h2>
+                <div id="preview">
+                    <p style="color: #666; text-align: center; padding: 40px 0;">Fill in the form and click "Generate Signature" to see preview</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="copyToClipboard()" id="copyBtn" disabled>📋 Copy Signature</button>
+                    <button class="btn btn-secondary" onclick="downloadHTML()" id="downloadBtn" disabled>💾 Download HTML</button>
+                </div>
+
+                <div class="success-message" id="successMsg">✓ Copied to clipboard! Paste into Outlook now.</div>
+            </div>
+        </div>
+
+        <!-- HTML Code Output (Hidden by default, shown when needed) -->
+        <div class="card" id="codeCard" style="display: none;">
+            <h2>HTML Code (For Advanced Users)</h2>
+            <div id="htmlOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        let generatedHTML = '';
+        const logoPath = 'alterspective-logo.png'; // Relative path to logo
+
+        function generateSignature() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const jobTitle = document.getElementById('jobTitle').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+            const website = document.getElementById('website').value.trim() || 'alterspective.com.au';
+
+            // Validation
+            if (!fullName || !jobTitle || !email || !mobile) {
+                alert('Please fill in all required fields (marked with *)');
+                return;
+            }
+
+            // Format phone number for tel: link (remove spaces and add +61)
+            const mobileForLink = '+61' + mobile.replace(/^0/, '').replace(/\s/g, '');
+
+            // Generate HTML
+            generatedHTML = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="margin: 0; padding: 0;">
+    <table cellpadding="0" cellspacing="0" border="0" style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; max-width: 650px; border-collapse: collapse;">
+        <tr>
+            <td style="vertical-align: middle; padding-right: 30px; border-right: 2px solid #2C8248;">
+                <img src="${logoPath}" alt="Alterspective" width="180" height="auto" style="display: block; border: 0; max-width: 180px;">
+            </td>
+            <td style="width: 30px;"></td>
+            <td style="vertical-align: middle;">
+                <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+                    <tr>
+                        <td style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 400; color: #08233D; padding-bottom: 2px; line-height: 1.2;">
+                            ${fullName}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 400; color: #08233D; padding-bottom: 15px; line-height: 1.2;">
+                            ${jobTitle}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #2C8248; padding-bottom: 3px; font-weight: 400;">
+                            <a href="mailto:${email}" style="color: #2C8248; text-decoration: none;">${email}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #2C8248; padding-bottom: 3px; font-weight: 400;">
+                            m. <a href="tel:${mobileForLink}" style="color: #2C8248; text-decoration: none;">${mobile}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #2C8248; font-weight: 400;">
+                            <a href="https://${website}" style="color: #2C8248; text-decoration: none;" target="_blank">${website}</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;
+
+            // Show preview
+            document.getElementById('preview').innerHTML = generatedHTML.match(/<body[^>]*>([\s\S]*)<\/body>/)[1];
+
+            // Enable buttons
+            document.getElementById('copyBtn').disabled = false;
+            document.getElementById('downloadBtn').disabled = false;
+
+            // Show HTML code
+            document.getElementById('htmlOutput').textContent = generatedHTML;
+            document.getElementById('codeCard').style.display = 'block';
+        }
+
+        function copyToClipboard() {
+            // Create a temporary container
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = generatedHTML.match(/<body[^>]*>([\s\S]*)<\/body>/)[1];
+            document.body.appendChild(tempDiv);
+
+            // Select the content
+            const range = document.createRange();
+            range.selectNodeContents(tempDiv);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Copy to clipboard
+            try {
+                document.execCommand('copy');
+
+                // Show success message
+                const successMsg = document.getElementById('successMsg');
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 3000);
+            } catch (err) {
+                alert('Failed to copy. Please copy from the HTML code section below.');
+            }
+
+            // Clean up
+            selection.removeAllRanges();
+            document.body.removeChild(tempDiv);
+        }
+
+        function downloadHTML() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const filename = `${fullName.toLowerCase().replace(/\s+/g, '-')}-signature.html`;
+
+            const blob = new Blob([generatedHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert(`Downloaded as: ${filename}\n\nYou can open this file in a browser and copy-paste into Outlook.`);
+        }
+
+        // Auto-generate on page load with default values
+        window.onload = function() {
+            generateSignature();
+        };
+    </script>
+
+</body>
+</html>

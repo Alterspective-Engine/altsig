@@ -1,0 +1,239 @@
+# AltSig - Git Ignore Rules
+# Version: 1.0.0
+# Last Updated: 2025-11-04
+
+# ========================================
+# Node.js Dependencies
+# ========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ========================================
+# Package Manager Lock Files (keep one)
+# ========================================
+# Uncomment the lock file you're NOT using:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ========================================
+# Environment Variables
+# ========================================
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+
+# ========================================
+# Operating System Files
+# ========================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ========================================
+# IDE and Editor Files
+# ========================================
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs (WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# ========================================
+# Testing and Coverage
+# ========================================
+test-results/
+playwright-report/
+playwright/.cache/
+coverage/
+*.lcov
+.nyc_output/
+
+# Playwright
+test-results/
+playwright-report/
+.playwright/
+
+# ========================================
+# Build Output
+# ========================================
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+
+# ========================================
+# Logs
+# ========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ========================================
+# Temporary Files
+# ========================================
+*.tmp
+*.temp
+tmp/
+temp/
+.tmp/
+
+# ========================================
+# Azure Specific
+# ========================================
+.azure/
+local.settings.json
+
+# Static Web Apps CLI
+.swa/
+
+# ========================================
+# Project Specific
+# ========================================
+
+# Archive (old versions - keep in repo but can be ignored if too large)
+# archive/
+
+# Generated signature files (if auto-generated)
+*-signature-output.html
+
+# User-generated content
+user-uploads/
+signatures-generated/
+
+# Base64 cache files
+*.base64.cache
+
+# ========================================
+# Security
+# ========================================
+# Never commit these files
+secrets.json
+credentials.json
+*.key
+*.pem
+*.cert
+*.pfx
+*.p12
+
+# ========================================
+# Performance and Debugging
+# ========================================
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# ========================================
+# Optional npm cache directory
+# ========================================
+.npm
+
+# ========================================
+# Optional eslint cache
+# ========================================
+.eslintcache
+
+# ========================================
+# Optional REPL history
+# ========================================
+.node_repl_history
+
+# ========================================
+# Documentation Build Output
+# ========================================
+docs/.vitepress/dist
+docs/.vitepress/cache
+
+# ========================================
+# Custom Additions Below This Line
+# ========================================
+
+# Backup files - should never be committed
+*.bak
+*.bak2
+*.bak3
+*.backup
+*~
+
+# Test artifacts - generated during test runs
+test-*.png
+test-*.html
+*-screenshot.png
+*-dump.html
+test-results.json
+*-snapshots/
+
+# Development iteration files
+signature-generator-*.html
+email-signature-*.html
+
+# Base64 encoded files (should be embedded in code)
+*.base64.txt
+*-base64.txt
+*-base64.js
+
