@@ -136,7 +136,7 @@ export class SignatureGenerator {
 
     /**
      * Generate Reply Signature (Compact Version)
-     * Cleaner two-line format: Name/Title on line 1, Contact info on line 2
+     * Clean three-line format: Name/Title on line 1, Email on line 2, Mobile on line 3
      * @param {Object} data - Form data {fullName, jobTitle, email, mobile}
      * @returns {string} Complete HTML document with compact signature
      */
@@ -154,7 +154,7 @@ export class SignatureGenerator {
         const spec = this.config.signatures.reply;
         const colors = this.config.colors;
 
-        // Generate compact two-line HTML document
+        // Generate compact three-line HTML document
         return `<!DOCTYPE html>
 <html>
 <head>
@@ -166,11 +166,11 @@ export class SignatureGenerator {
 </head>
 <body style="margin: 0; padding: 0; font-family: ${this.config.fonts.signatureBody};">
 
-    <!-- REPLY SIGNATURE TABLE - COMPACT TWO-LINE VERSION -->
+    <!-- REPLY SIGNATURE TABLE - COMPACT THREE-LINE VERSION -->
     <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${this.config.fonts.signatureBody}; border-collapse: collapse;">
         <tr>
             <!-- Logo Symbol (40x40px) with vertical divider -->
-            <td rowspan="2" style="vertical-align: middle; padding-right: ${spec.spacing}px; border-right: ${spec.divider.width}px solid ${spec.divider.color};">
+            <td rowspan="3" style="vertical-align: middle; padding-right: ${spec.spacing}px; border-right: ${spec.divider.width}px solid ${spec.divider.color};">
                 <img src="${logoSrc}"
                      alt="${this.config.logo.alt}"
                      width="${spec.logo.width}"
@@ -179,7 +179,7 @@ export class SignatureGenerator {
             </td>
 
             <!-- Spacer after logo/divider -->
-            <td rowspan="2" style="width: ${spec.spacing}px;">&nbsp;</td>
+            <td rowspan="3" style="width: ${spec.spacing}px;">&nbsp;</td>
 
             <!-- Line 1: Name & Job Title -->
             <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.name}px; font-weight: 600; color: ${colors.navy}; padding: 0 0 2px 0; line-height: 1.2;">
@@ -187,9 +187,15 @@ export class SignatureGenerator {
             </td>
         </tr>
         <tr>
-            <!-- Line 2: Email & Mobile -->
+            <!-- Line 2: Email -->
+            <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding: 2px 0; line-height: 1.2;">
+                <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.email)}</span></a>
+            </td>
+        </tr>
+        <tr>
+            <!-- Line 3: Mobile -->
             <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding: 2px 0 0 0; line-height: 1.2;">
-                <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.email)}</span></a><span style="color: ${colors.green};"> • </span>m. <a href="tel:${mobileForLink}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.mobile)}</span></a>
+                m. <a href="tel:${mobileForLink}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.mobile)}</span></a>
             </td>
         </tr>
     </table>
