@@ -1,0 +1,347 @@
+/* ===================================
+   Alterspective Email Signature Generator
+   Main Stylesheet
+   Version: 2.0
+   =================================== */
+
+/* ===================================
+   1. RESET & BASE STYLES
+   =================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #17232D 0%, #075156 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+/* ===================================
+   2. LAYOUT
+   =================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.header .version {
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* ===================================
+   3. CARDS
+   =================================== */
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.card h2 {
+    color: #17232D;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #ABDD65;
+}
+
+/* ===================================
+   4. FORMS
+   =================================== */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #17232D;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2C8248;
+}
+
+.form-group .hint {
+    font-size: 0.85em;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* ===================================
+   5. BUTTONS
+   =================================== */
+
+.btn {
+    background: #075156;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(23,35,45,0.20), 0 2px 2px rgba(23,35,45,0.08);
+}
+
+.btn:hover {
+    background: #064449;
+    box-shadow: 0 4px 12px rgba(23,35,45,0.25), 0 2px 4px rgba(23,35,45,0.12);
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-secondary {
+    background: #2C8248;
+}
+
+.btn-secondary:hover {
+    background: #236b39;
+    transform: translateY(-1px);
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* ===================================
+   6. PREVIEW & MESSAGES
+   =================================== */
+
+#preview {
+    min-height: 200px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-message {
+    background: #ABDD65;
+    color: #17232D;
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-weight: 500;
+    display: none;
+}
+
+/* ===================================
+   7. SPECS CARD
+   =================================== */
+
+.specs-card {
+    background: #E5EEEF;
+    border-left: 4px solid #075156;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+.specs-card h3 {
+    color: #17232D;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.specs-card ul {
+    list-style: none;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.specs-card li {
+    padding: 3px 0;
+}
+
+.specs-card li::before {
+    content: "✓ ";
+    color: #075156;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* ===================================
+   8. INSTALLATION INSTRUCTIONS
+   =================================== */
+
+.install-instructions {
+    margin-top: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #ABDD65;
+    display: none;
+}
+
+.install-instructions.show {
+    display: block;
+}
+
+.install-instructions h3 {
+    color: #17232D;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.os-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.os-tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.os-tab:hover {
+    color: #17232D;
+    background: rgba(171, 221, 101, 0.1);
+}
+
+.os-tab.active {
+    color: #2C8248;
+    border-bottom-color: #ABDD65;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.install-instructions ol {
+    margin: 15px 0;
+    padding-left: 25px;
+}
+
+.install-instructions li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.install-instructions strong {
+    color: #2C8248;
+    font-weight: 600;
+}
+
+.install-instructions .note {
+    background: #fff;
+    border-left: 3px solid #FFA500;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.install-instructions .tip {
+    background: #e8f5e9;
+    border-left: 3px solid #2C8248;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.install-instructions .subsection {
+    margin: 20px 0 15px 0;
+    font-weight: 600;
+    color: #17232D;
+    font-size: 1.05em;
+}
+
+.help-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #2C8248;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.help-link:hover {
+    color: #ABDD65;
+}
+
+/* ===================================
+   9. RESPONSIVE - MOBILE
+   =================================== */
+
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}

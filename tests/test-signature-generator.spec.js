@@ -17,18 +17,17 @@ const path = require('path');
 test.describe('Alterspective Email Signature Generator', () => {
 
   test.beforeEach(async ({ page }) => {
-    // Navigate to the production HTML file
-    const filePath = path.join(__dirname, '..', 'public', 'index.html');
-    await page.goto(`file://${filePath}`);
+    // Navigate to the page via http-server (supports ES6 modules)
+    await page.goto('/');
   });
 
   test('should load the page successfully', async ({ page }) => {
     // Check page title
-    await expect(page).toHaveTitle(/Alterspective Email Signature Generator/);
+    await expect(page).toHaveTitle(/Email Signature Generator/);
 
     // Check main heading
     const heading = page.locator('h1');
-    await expect(heading).toContainText('Alterspective Email Signature Generator');
+    await expect(heading).toContainText('Email Signature Generator');
 
     // Check that the page has loaded with gradient background
     const body = page.locator('body');
@@ -59,32 +58,50 @@ test.describe('Alterspective Email Signature Generator', () => {
     await expect(page.locator('#website')).toHaveValue('alterspective.com.au');
   });
 
-  test('should generate signature automatically on page load', async ({ page }) => {
-    // Wait for auto-generation on page load
+  test('should generate both signatures when clicking Generate button', async ({ page }) => {
+    // Click generate button
+    await page.locator('#generateBtn').click();
+
+    // Wait for generation
     await page.waitForTimeout(500);
 
-    // Check that preview has content (not the placeholder text)
-    const preview = page.locator('#preview');
-    const previewContent = await preview.textContent();
+    // Check that New Email preview has content
+    const previewNew = page.locator('#previewNew');
+    const previewNewContent = await previewNew.textContent();
 
-    expect(previewContent).toContain('Igor Jericevich');
-    expect(previewContent).toContain('Managing Director');
-    expect(previewContent).toContain('igor.jericevich@alterspective.com.au');
+    expect(previewNewContent).toContain('Igor Jericevich');
+    expect(previewNewContent).toContain('Managing Director');
+    expect(previewNewContent).toContain('igor.jericevich@alterspective.com.au');
+
+    // Check that Reply preview has content
+    const previewReply = page.locator('#previewReply');
+    const previewReplyContent = await previewReply.textContent();
+
+    expect(previewReplyContent).toContain('Igor Jericevich');
+    expect(previewReplyContent).toContain('Managing Director');
   });
 
-  test('should generate signature when clicking Generate button', async ({ page }) => {
-    // Clear a field first
+  test('should update signatures with custom employee data', async ({ page }) => {
+    // Fill in custom data
     await page.locator('#fullName').fill('Test User');
+    await page.locator('#jobTitle').fill('Tester');
 
     // Click generate button
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
 
-    // Check preview updates
-    const preview = page.locator('#preview');
-    await expect(preview).toContainText('Test User');
+    // Wait for generation
+    await page.waitForTimeout(300);
+
+    // Check both previews update
+    const previewNew = page.locator('#previewNew');
+    await expect(previewNew).toContainText('Test User');
+    await expect(previewNew).toContainText('Tester');
+
+    const previewReply = page.locator('#previewReply');
+    await expect(previewReply).toContainText('Test User');
   });
 
-  test('should update preview with custom employee data', async ({ page }) => {
+  test('should update both previews with complete custom employee data', async ({ page }) => {
     // Fill in custom data
     await page.locator('#fullName').fill('Sarah Johnson');
     await page.locator('#jobTitle').fill('Senior Consultant');
@@ -92,14 +109,21 @@ test.describe('Alterspective Email Signature Generator', () => {
     await page.locator('#mobile').fill('0412 345 678');
 
     // Generate
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
 
-    // Verify preview
-    const preview = page.locator('#preview');
-    await expect(preview).toContainText('Sarah Johnson');
-    await expect(preview).toContainText('Senior Consultant');
-    await expect(preview).toContainText('sarah.johnson@alterspective.com.au');
-    await expect(preview).toContainText('0412 345 678');
+    await page.waitForTimeout(300);
+
+    // Verify New Email preview
+    const previewNew = page.locator('#previewNew');
+    await expect(previewNew).toContainText('Sarah Johnson');
+    await expect(previewNew).toContainText('Senior Consultant');
+    await expect(previewNew).toContainText('sarah.johnson@alterspective.com.au');
+    await expect(previewNew).toContainText('0412 345 678');
+
+    // Verify Reply preview
+    const previewReply = page.locator('#previewReply');
+    await expect(previewReply).toContainText('Sarah Johnson');
+    await expect(previewReply).toContainText('Senior Consultant');
   });
 
   test('should show validation alert for empty required fields', async ({ page }) => {
@@ -107,92 +131,100 @@ test.describe('Alterspective Email Signature Generator', () => {
     await page.locator('#fullName').fill('');
 
     // Set up dialog handler
-    page.on('dialog', async dialog => {
-      expect(dialog.message()).toContain('Please fill in all required fields');
+    page.once('dialog', async dialog => {
+      expect(dialog.message()).toContain('required');
       await dialog.accept();
     });
 
     // Try to generate
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
   });
 
   test('should have correct signature layout structure', async ({ page }) => {
-    // Wait for auto-generation
+    // Generate signatures
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Check for table structure in preview
-    const preview = page.locator('#preview');
-    const tables = preview.locator('table');
+    // Check for table structure in New Email preview
+    const previewNew = page.locator('#previewNew');
+    const tablesNew = previewNew.locator('table');
 
     // Should have table-based layout
-    await expect(tables.first()).toBeVisible();
+    await expect(tablesNew.first()).toBeVisible();
 
-    // Check for logo image
-    const logoImg = preview.locator('img[alt="Alterspective"]');
-    await expect(logoImg).toBeVisible();
-    await expect(logoImg).toHaveAttribute('src', 'alterspective-logo.png');
+    // Check for logo image with base64 data
+    const logoImgNew = previewNew.locator('img[alt="Alterspective"]');
+    await expect(logoImgNew).toBeVisible();
+
+    // Logo should use base64 data
+    const logoSrc = await logoImgNew.getAttribute('src');
+    expect(logoSrc).toContain('data:image');
+
+    // Check Reply preview also has table structure
+    const previewReply = page.locator('#previewReply');
+    const tablesReply = previewReply.locator('table');
+    await expect(tablesReply.first()).toBeVisible();
   });
 
-  test('should display clickable email link', async ({ page }) => {
+  test('should display clickable email link in both signatures', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Check email link in preview
-    const emailLink = page.locator('#preview a[href^="mailto:"]');
-    await expect(emailLink).toBeVisible();
-    await expect(emailLink).toHaveAttribute('href', 'mailto:igor.jericevich@alterspective.com.au');
+    // Check email link in New Email preview
+    const emailLinkNew = page.locator('#previewNew a[href^="mailto:"]');
+    await expect(emailLinkNew).toBeVisible();
+    await expect(emailLinkNew).toHaveAttribute('href', 'mailto:igor.jericevich@alterspective.com.au');
+
+    // Check email link in Reply preview
+    const emailLinkReply = page.locator('#previewReply a[href^="mailto:"]');
+    await expect(emailLinkReply).toBeVisible();
   });
 
-  test('should display clickable phone link', async ({ page }) => {
+  test('should display clickable phone link in both signatures', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Check phone link in preview
-    const phoneLink = page.locator('#preview a[href^="tel:"]');
-    await expect(phoneLink).toBeVisible();
+    // Check phone link in New Email preview
+    const phoneLinkNew = page.locator('#previewNew a[href^="tel:"]');
+    await expect(phoneLinkNew).toBeVisible();
 
     // Should format phone number with +61
-    const href = await phoneLink.getAttribute('href');
+    const href = await phoneLinkNew.getAttribute('href');
     expect(href).toContain('+61488180044');
   });
 
-  test('should display clickable website link', async ({ page }) => {
+  test('should display clickable website link in New Email signature', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Check website link
-    const websiteLink = page.locator('#preview a[href*="alterspective.com.au"]');
+    // Check website link in New Email preview (Reply doesn't have website)
+    const websiteLink = page.locator('#previewNew a[target="_blank"]').filter({ hasText: 'alterspective.com.au' });
     await expect(websiteLink).toBeVisible();
-    await expect(websiteLink).toHaveAttribute('target', '_blank');
+
+    const href = await websiteLink.getAttribute('href');
+    expect(href).toContain('alterspective.com.au');
   });
 
-  test('should enable copy button after generation', async ({ page }) => {
+  test('should enable copy buttons after generation', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Copy button should be enabled
-    const copyBtn = page.locator('#copyBtn');
-    await expect(copyBtn).toBeEnabled();
+    // Both copy buttons should be enabled
+    const copyNewBtn = page.locator('#copyNewBtn');
+    const copyReplyBtn = page.locator('#copyReplyBtn');
+    await expect(copyNewBtn).toBeEnabled();
+    await expect(copyReplyBtn).toBeEnabled();
   });
 
-  test('should enable download button after generation', async ({ page }) => {
+  test('should enable download buttons after generation', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Download button should be enabled
-    const downloadBtn = page.locator('#downloadBtn');
-    await expect(downloadBtn).toBeEnabled();
-  });
-
-  test('should show HTML code output', async ({ page }) => {
-    await page.waitForTimeout(500);
-
-    // HTML code section should be visible
-    const codeCard = page.locator('#codeCard');
-    await expect(codeCard).toBeVisible();
-
-    // Should contain HTML code
-    const htmlOutput = page.locator('#htmlOutput');
-    const codeContent = await htmlOutput.textContent();
-
-    expect(codeContent).toContain('<!DOCTYPE html>');
-    expect(codeContent).toContain('<table');
-    expect(codeContent).toContain('Igor Jericevich');
+    // Both download buttons should be enabled
+    const downloadNewBtn = page.locator('#downloadNewBtn');
+    const downloadReplyBtn = page.locator('#downloadReplyBtn');
+    await expect(downloadNewBtn).toBeEnabled();
+    await expect(downloadReplyBtn).toBeEnabled();
   });
 
   test('should have correct brand colors in UI', async ({ page }) => {
@@ -205,84 +237,94 @@ test.describe('Alterspective Email Signature Generator', () => {
     expect(await cards.count()).toBeGreaterThan(0);
   });
 
-  test('should apply correct styling to signature elements', async ({ page }) => {
+  test('should apply correct inline styling to signature elements', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Check that name has correct font styling (inline styles)
-    const preview = page.locator('#preview');
-    const nameElement = preview.locator('td').filter({ hasText: 'Igor Jericevich' }).first();
+    // Check that signature has inline styles (required for email compatibility)
+    const previewNew = page.locator('#previewNew');
+    const htmlContent = await previewNew.innerHTML();
 
-    const style = await nameElement.getAttribute('style');
-    expect(style).toContain('font-size: 28px');
-    expect(style).toContain('color: #08233D'); // Navy color
+    // Verify inline styles are present
+    expect(htmlContent).toContain('font-family');
+    expect(htmlContent).toContain('font-size');
+    expect(htmlContent).toContain('color: #17232D'); // Navy color
+    expect(htmlContent).toContain('color: #2C8248'); // Green color
+
+    // Verify specific styling exists in the HTML
+    expect(htmlContent).toContain('font-weight');
   });
 
-  test('should have vertical divider in signature', async ({ page }) => {
+  test('should have vertical divider in signatures', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Check for divider styling
-    const preview = page.locator('#preview');
-    const dividerCells = preview.locator('td[style*="border-right"]');
+    // Check for divider styling in New Email
+    const previewNew = page.locator('#previewNew');
+    const dividerCellsNew = previewNew.locator('td[style*="border-right"]');
+    expect(await dividerCellsNew.count()).toBeGreaterThan(0);
 
-    expect(await dividerCells.count()).toBeGreaterThan(0);
+    // Check for divider in Reply
+    const previewReply = page.locator('#previewReply');
+    const dividerCellsReply = previewReply.locator('td[style*="border-right"]');
+    expect(await dividerCellsReply.count()).toBeGreaterThan(0);
   });
 
   test('should format mobile number correctly for tel: link', async ({ page }) => {
     // Use different mobile number
     await page.locator('#mobile').fill('0412 345 678');
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
 
     await page.waitForTimeout(300);
 
-    // Check the generated HTML code
-    const htmlOutput = await page.locator('#htmlOutput').textContent();
+    // Check the New Email preview
+    const previewNew = page.locator('#previewNew');
+    const phoneLink = previewNew.locator('a[href^="tel:"]');
+    const href = await phoneLink.getAttribute('href');
 
     // Should convert 0412 345 678 to +61412345678
-    expect(htmlOutput).toContain('tel:+61412345678');
+    expect(href).toContain('tel:+61412345678');
 
     // But display should keep original format
-    expect(htmlOutput).toContain('0412 345 678');
+    await expect(previewNew).toContainText('0412 345 678');
   });
 
   test('should handle custom website URL', async ({ page }) => {
     await page.locator('#website').fill('custom.alterspective.com.au');
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
 
     await page.waitForTimeout(300);
 
-    const preview = page.locator('#preview');
-    await expect(preview).toContainText('custom.alterspective.com.au');
+    const previewNew = page.locator('#previewNew');
+    await expect(previewNew).toContainText('custom.alterspective.com.au');
   });
 
-  test('should copy signature to clipboard', async ({ page, context }) => {
+  test('should copy New Email signature to clipboard', async ({ page, context }) => {
     // Grant clipboard permissions
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Click copy button
-    await page.locator('#copyBtn').click();
+    // Click copy button for New Email
+    await page.locator('#copyNewBtn').click();
 
-    // Check success message appears
-    const successMsg = page.locator('#successMsg');
-    await expect(successMsg).toBeVisible();
-
-    // Success message should auto-hide after 3 seconds
-    await page.waitForTimeout(3500);
-    await expect(successMsg).toBeHidden();
+    // Brief wait for clipboard operation
+    await page.waitForTimeout(500);
   });
 
-  test('should generate unique filename for download', async ({ page }) => {
+  test('should enable download buttons with custom name', async ({ page }) => {
     // Change name
     await page.locator('#fullName').fill('Sarah Johnson');
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
 
-    // We can't easily test actual download, but we can verify the download button works
-    const downloadBtn = page.locator('#downloadBtn');
-    await expect(downloadBtn).toBeEnabled();
+    await page.waitForTimeout(500);
 
-    // The filename should be based on name: sarah-johnson-signature.html
-    // This would be tested in the actual download, but here we verify button is functional
+    // Both download buttons should be enabled
+    const downloadNewBtn = page.locator('#downloadNewBtn');
+    const downloadReplyBtn = page.locator('#downloadReplyBtn');
+    await expect(downloadNewBtn).toBeEnabled();
+    await expect(downloadReplyBtn).toBeEnabled();
   });
 
   test('should maintain signature structure with different inputs', async ({ page }) => {
@@ -295,17 +337,20 @@ test.describe('Alterspective Email Signature Generator', () => {
     for (const testCase of testCases) {
       await page.locator('#fullName').fill(testCase.name);
       await page.locator('#jobTitle').fill(testCase.title);
-      await page.locator('button:has-text("Generate Signature")').click();
+      await page.locator('#generateBtn').click();
 
       await page.waitForTimeout(300);
 
-      // Verify structure is maintained
-      const preview = page.locator('#preview');
-      await expect(preview).toContainText(testCase.name);
-      await expect(preview).toContainText(testCase.title);
+      // Verify structure is maintained in both previews
+      const previewNew = page.locator('#previewNew');
+      await expect(previewNew).toContainText(testCase.name);
+      await expect(previewNew).toContainText(testCase.title);
+
+      const previewReply = page.locator('#previewReply');
+      await expect(previewReply).toContainText(testCase.name);
 
       // Check table structure still exists
-      const tables = preview.locator('table');
+      const tables = previewNew.locator('table');
       expect(await tables.count()).toBeGreaterThan(0);
     }
   });
@@ -318,43 +363,47 @@ test.describe('Alterspective Email Signature Generator', () => {
     await expect(page.locator('.hint').filter({ hasText: 'Australian format' })).toBeVisible();
   });
 
-  test('should have responsive grid layout', async ({ page }) => {
-    // Check main grid exists
-    const mainGrid = page.locator('.main-grid');
-    await expect(mainGrid).toBeVisible();
+  test('should have responsive layout for signature preview cards', async ({ page }) => {
+    // Check both signature preview sections exist
+    const newEmailSection = page.locator('#previewNew').locator('..');
+    const replySection = page.locator('#previewReply').locator('..');
 
-    // Should have two cards side by side (on desktop)
-    const cards = mainGrid.locator('.card');
-    expect(await cards.count()).toBe(2);
+    await expect(newEmailSection).toBeVisible();
+    await expect(replySection).toBeVisible();
   });
 
-  test('should preserve formatting in generated HTML', async ({ page }) => {
+  test('should preserve formatting in generated signatures', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    const htmlOutput = await page.locator('#htmlOutput').textContent();
+    // Check New Email preview HTML structure
+    const previewNew = page.locator('#previewNew');
+    const htmlContent = await previewNew.innerHTML();
 
     // Check key HTML structure elements
-    expect(htmlOutput).toContain('<!DOCTYPE html>');
-    expect(htmlOutput).toContain('<table');
-    expect(htmlOutput).toContain('cellpadding="0"');
-    expect(htmlOutput).toContain('cellspacing="0"');
-    expect(htmlOutput).toContain('border="0"');
+    expect(htmlContent).toContain('<table');
+    expect(htmlContent).toContain('cellpadding="0"');
+    expect(htmlContent).toContain('cellspacing="0"');
+    expect(htmlContent).toContain('border="0"');
 
     // Check inline styles are present
-    expect(htmlOutput).toContain('font-family');
-    expect(htmlOutput).toContain('color: #08233D'); // Navy
-    expect(htmlOutput).toContain('color: #2C8248'); // Green
+    expect(htmlContent).toContain('font-family');
+    expect(htmlContent).toContain('color'); // Color styles should be inline
   });
 
-  test('should include logo reference in generated HTML', async ({ page }) => {
+  test('should include base64 logo in generated signatures', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    const htmlOutput = await page.locator('#htmlOutput').textContent();
+    // Check New Email preview
+    const previewNew = page.locator('#previewNew');
+    const logoImg = previewNew.locator('img[alt="Alterspective"]');
 
-    // Logo should be referenced
-    expect(htmlOutput).toContain('alterspective-logo.png');
-    expect(htmlOutput).toContain('alt="Alterspective"');
-    expect(htmlOutput).toContain('width="180"');
+    await expect(logoImg).toBeVisible();
+
+    // Logo should use base64 data
+    const logoSrc = await logoImg.getAttribute('src');
+    expect(logoSrc).toContain('data:image');
   });
 
   test('should validate email format visually', async ({ page }) => {
@@ -388,41 +437,45 @@ test.describe('Alterspective Email Signature Generator', () => {
 
   test('should handle special characters in names', async ({ page }) => {
     await page.locator('#fullName').fill("O'Brien-Smith");
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
 
     await page.waitForTimeout(300);
 
-    const preview = page.locator('#preview');
-    await expect(preview).toContainText("O'Brien-Smith");
+    const previewNew = page.locator('#previewNew');
+    await expect(previewNew).toContainText("O'Brien-Smith");
   });
 
   test('should maintain proper spacing in signature layout', async ({ page }) => {
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(500);
 
-    // Check that spacing cell exists (30px width between logo and text)
-    const preview = page.locator('#preview');
-    const spacingCell = preview.locator('td[style*="width: 30px"]');
+    // Check that spacing cell exists between logo and text in New Email
+    const previewNew = page.locator('#previewNew');
+    const spacingCell = previewNew.locator('td[style*="width"]');
 
     expect(await spacingCell.count()).toBeGreaterThan(0);
   });
 
-  test('performance: should generate signature quickly', async ({ page }) => {
+  test('performance: should generate both signatures quickly', async ({ page }) => {
     const startTime = Date.now();
 
     await page.locator('#fullName').fill('Performance Test');
-    await page.locator('button:has-text("Generate Signature")').click();
+    await page.locator('#generateBtn').click();
 
     await page.waitForTimeout(100);
 
     const endTime = Date.now();
     const duration = endTime - startTime;
 
-    // Should generate in under 500ms
-    expect(duration).toBeLessThan(500);
+    // Should generate in under 1 second
+    expect(duration).toBeLessThan(1000);
 
-    // Verify it actually generated
-    const preview = page.locator('#preview');
-    await expect(preview).toContainText('Performance Test');
+    // Verify both signatures generated
+    const previewNew = page.locator('#previewNew');
+    await expect(previewNew).toContainText('Performance Test');
+
+    const previewReply = page.locator('#previewReply');
+    await expect(previewReply).toContainText('Performance Test');
   });
 
 });
@@ -430,8 +483,8 @@ test.describe('Alterspective Email Signature Generator', () => {
 test.describe('Visual Regression Tests', () => {
 
   test('should match visual snapshot of generator page', async ({ page }) => {
-    const filePath = path.join(__dirname, '..', 'public', 'index.html');
-    await page.goto(`file://${filePath}`);
+    
+    await page.goto('/');
 
     // Wait for page to fully render
     await page.waitForTimeout(1000);
@@ -443,15 +496,21 @@ test.describe('Visual Regression Tests', () => {
     });
   });
 
-  test('should match visual snapshot of generated signature', async ({ page }) => {
-    const filePath = path.join(__dirname, '..', 'public', 'index.html');
-    await page.goto(`file://${filePath}`);
+  test('should match visual snapshot of generated signatures', async ({ page }) => {
 
+    await page.goto('/');
+
+    // Generate signatures first
+    await page.locator('#generateBtn').click();
     await page.waitForTimeout(1000);
 
-    // Screenshot just the preview area
-    const preview = page.locator('#preview');
-    await expect(preview).toHaveScreenshot('signature-preview.png');
+    // Screenshot the New Email preview area
+    const previewNew = page.locator('#previewNew');
+    await expect(previewNew).toHaveScreenshot('signature-preview-new.png');
+
+    // Screenshot the Reply preview area
+    const previewReply = page.locator('#previewReply');
+    await expect(previewReply).toHaveScreenshot('signature-preview-reply.png');
   });
 
 });

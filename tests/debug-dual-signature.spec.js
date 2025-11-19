@@ -20,7 +20,7 @@ test.describe('Dual Signature Generator - Debug Test', () => {
 
         // Load the page
         console.log('\n=== Loading page ===');
-        await page.goto('file://' + process.cwd() + '/public/index.html');
+        await page.goto('/');
 
         // Wait for page to be fully loaded
         await page.waitForLoadState('networkidle');
