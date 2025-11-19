@@ -136,6 +136,7 @@ export class SignatureGenerator {
 
     /**
      * Generate Reply Signature (Compact Version)
+     * Cleaner two-line format: Name/Title on line 1, Contact info on line 2
      * @param {Object} data - Form data {fullName, jobTitle, email, mobile}
      * @returns {string} Complete HTML document with compact signature
      */
@@ -153,29 +154,23 @@ export class SignatureGenerator {
         const spec = this.config.signatures.reply;
         const colors = this.config.colors;
 
-        // Generate compact HTML document
+        // Generate compact two-line HTML document
         return `<!DOCTYPE html>
 <html>
 <head>
     <style type="text/css">
-        /* Force green links in all email clients */
-        a { color: ${colors.green} !important; text-decoration: none !important; }
-        a:link { color: ${colors.green} !important; }
-        a:visited { color: ${colors.green} !important; }
-        a:hover { color: ${colors.green} !important; }
-        a:active { color: ${colors.green} !important; }
-        span a { color: ${colors.green} !important; }
-        .ExternalClass a { color: ${colors.green} !important; }
+        /* Force link colors in all email clients */
+        a { text-decoration: none !important; }
     </style>
     <meta charset="UTF-8">
 </head>
 <body style="margin: 0; padding: 0; font-family: ${this.config.fonts.signatureBody};">
 
-    <!-- REPLY SIGNATURE TABLE - COMPACT VERSION -->
-    <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${this.config.fonts.signatureBody}; line-height: ${spec.lineHeight}; border-collapse: collapse;">
+    <!-- REPLY SIGNATURE TABLE - COMPACT TWO-LINE VERSION -->
+    <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${this.config.fonts.signatureBody}; border-collapse: collapse;">
         <tr>
-            <!-- Logo Symbol (40x40px) with vertical divider via border-right -->
-            <td style="vertical-align: middle; padding-right: ${spec.spacing}px; border-right: ${spec.divider.width}px solid ${spec.divider.color};">
+            <!-- Logo Symbol (40x40px) with vertical divider -->
+            <td rowspan="2" style="vertical-align: middle; padding-right: ${spec.spacing}px; border-right: ${spec.divider.width}px solid ${spec.divider.color};">
                 <img src="${logoSrc}"
                      alt="${this.config.logo.alt}"
                      width="${spec.logo.width}"
@@ -184,48 +179,17 @@ export class SignatureGenerator {
             </td>
 
             <!-- Spacer after logo/divider -->
-            <td style="width: ${spec.spacing}px; font-size: 1px; line-height: ${spec.lineHeight};">&nbsp;</td>
+            <td rowspan="2" style="width: ${spec.spacing}px;">&nbsp;</td>
 
-            <!-- Contact Information - Compact inline format -->
-            <td style="vertical-align: middle;">
-                <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
-                    <tr>
-                        <!-- Name -->
-                        <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.name}px; font-weight: bold; color: ${colors.navy}; padding: 0; margin: 0; padding-right: 8px; white-space: nowrap;">
-                            ${this._escapeHtml(data.fullName)}
-                        </td>
-
-                        <!-- Separator dot -->
-                        <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.name}px; color: ${colors.green}; padding: 0 6px 0 0;">
-                            •
-                        </td>
-
-                        <!-- Job Title -->
-                        <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.title}px; color: ${colors.green}; padding: 0; margin: 0; padding-right: 8px; white-space: nowrap;">
-                            ${this._escapeHtml(data.jobTitle)}
-                        </td>
-
-                        <!-- Separator dot -->
-                        <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.title}px; color: ${colors.green}; padding: 0 6px 0 0;">
-                            •
-                        </td>
-
-                        <!-- Email -->
-                        <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.green}; padding: 0; margin: 0; padding-right: 8px; white-space: nowrap;">
-                            <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.green} !important; text-decoration: none;"><span style="color: ${colors.green} !important;">${this._escapeHtml(data.email)}</span></a>
-                        </td>
-
-                        <!-- Separator dot -->
-                        <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.green}; padding: 0 6px 0 0;">
-                            •
-                        </td>
-
-                        <!-- Mobile -->
-                        <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.green}; padding: 0; margin: 0; white-space: nowrap;">
-                            m. <a href="tel:${mobileForLink}" style="color: ${colors.green} !important; text-decoration: none;"><span style="color: ${colors.green} !important;">${this._escapeHtml(data.mobile)}</span></a>
-                        </td>
-                    </tr>
-                </table>
+            <!-- Line 1: Name & Job Title -->
+            <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.name}px; font-weight: 600; color: ${colors.navy}; padding: 0 0 2px 0; line-height: 1.2;">
+                ${this._escapeHtml(data.fullName)}<span style="color: ${colors.green}; font-weight: 400; font-size: ${spec.fontSize.title}px;"> • ${this._escapeHtml(data.jobTitle)}</span>
+            </td>
+        </tr>
+        <tr>
+            <!-- Line 2: Email & Mobile -->
+            <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding: 2px 0 0 0; line-height: 1.2;">
+                <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.email)}</span></a><span style="color: ${colors.green};"> • </span>m. <a href="tel:${mobileForLink}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.mobile)}</span></a>
             </td>
         </tr>
     </table>
