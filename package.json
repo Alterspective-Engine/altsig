@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/alterspective/altsig.git"
+    "url": "https://github.com/Alterspective-Engine/altsig.git"
   },
   "keywords": [
     "email-signature",
@@ -32,9 +32,9 @@
   "author": "Alterspective",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alterspective/altsig/issues"
+    "url": "https://github.com/Alterspective-Engine/altsig/issues"
   },
-  "homepage": "https://github.com/alterspective/altsig#readme",
+  "homepage": "https://brave-stone-0b7eb4800.3.azurestaticapps.net",
   "devDependencies": {
     "@playwright/test": "^1.40.0",
     "http-server": "^14.1.1"
