@@ -49,25 +49,25 @@
 
                     <div class="form-group">
                         <label for="fullName">Full Name *</label>
-                        <input type="text" id="fullName" placeholder="e.g., Igor Jericevich" value="Igor Jericevich">
+                        <input type="text" id="fullName" placeholder="e.g., Igor Jericevich" value="">
                         <div class="hint">First and Last Name</div>
                     </div>
 
                     <div class="form-group">
                         <label for="jobTitle">Job Title *</label>
-                        <input type="text" id="jobTitle" placeholder="e.g., Managing Director" value="Managing Director">
+                        <input type="text" id="jobTitle" placeholder="e.g., Managing Director" value="">
                         <div class="hint">Official position</div>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email Address *</label>
-                        <input type="email" id="email" placeholder="e.g., name@alterspective.com.au" value="igor.jericevich@alterspective.com.au">
+                        <input type="email" id="email" placeholder="e.g., name@alterspective.com.au" value="">
                         <div class="hint">Company email</div>
                     </div>
 
                     <div class="form-group">
                         <label for="mobile">Mobile Number *</label>
-                        <input type="tel" id="mobile" placeholder="e.g., 0488 180 044" value="0488 180 044">
+                        <input type="tel" id="mobile" placeholder="e.g., 0488 180 044" value="">
                         <div class="hint">Australian format (with spaces)</div>
                     </div>
 
@@ -109,7 +109,7 @@
                         </div>
                         <div id="previewNew" style="min-height: 150px; background: #f8f8f8; border-radius: 8px; padding: 20px; display: flex; align-items: center; justify-content: center;">
                             <p style="color: #666; text-align: center;">
-                                Click "Generate Themed Signatures" to see your seasonal signature
+                                Fill in your information above and signatures will generate automatically
                             </p>
                         </div>
 
@@ -135,7 +135,7 @@
                         </div>
                         <div id="previewReply" style="min-height: 150px; background: #f8f8f8; border-radius: 8px; padding: 20px; display: flex; align-items: center; justify-content: center;">
                             <p style="color: #666; text-align: center;">
-                                Click "Generate Themed Signatures" to see compact seasonal version
+                                Fill in your information above and signatures will generate automatically
                             </p>
                         </div>
 
@@ -205,12 +205,8 @@
             updateButtonIcon(theme);
 
             // Auto-regenerate signatures if form has valid data
-            const fullName = document.getElementById('fullName').value.trim();
-            const jobTitle = document.getElementById('jobTitle').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const mobile = document.getElementById('mobile').value.trim();
-
-            if (fullName && jobTitle && email && mobile) {
+            const data = getFormData();
+            if (isFormValid(data)) {
                 generateThemedSignatures();
             }
         };
@@ -249,8 +245,16 @@
             }
         }
 
-        // Load Christmas logo on page load
-        loadChristmasLogo();
+        // Load Christmas logo on page load and wait for it
+        loadChristmasLogo().then(() => {
+            // Auto-generate on initial load if form has default values
+            setTimeout(() => {
+                const data = getFormData();
+                if (isFormValid(data)) {
+                    generateThemedSignatures();
+                }
+            }, 500); // Small delay to ensure everything is loaded
+        });
 
         // Initialize signature generator with mutable config
         const signatureGenerator = new ThemedSignatureGenerator(mutableConfig);
@@ -263,9 +267,44 @@
         window.replyHTML = null;
         window.lastGeneratedData = null;
 
+        // Helper function to get form data (reduces DOM queries)
+        function getFormData() {
+            return {
+                fullName: document.getElementById('fullName').value.trim(),
+                jobTitle: document.getElementById('jobTitle').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                mobile: document.getElementById('mobile').value.trim(),
+                website: document.getElementById('website').value.trim() || 'alterspective.com.au'
+            };
+        }
+
+        // Validate form data
+        function isFormValid(data) {
+            // Check required fields
+            if (!data.fullName || !data.jobTitle || !data.email || !data.mobile) {
+                return false;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                return false;
+            }
+
+            // Validate Australian phone number (basic check)
+            const phoneDigits = data.mobile.replace(/\s+/g, '').replace(/-/g, '');
+            if (!phoneDigits.match(/^(\+61|0)[2-478]\d{8}$/)) {
+                return false;
+            }
+
+            return true;
+        }
+
         // Update button icon based on current theme
         function updateButtonIcon(theme) {
             const btnIcon = document.getElementById('btnIcon');
+            if (!btnIcon) return;
+
             if (theme.id === 'christmas') {
                 btnIcon.textContent = '🎄';
             } else if (theme.id === 'newYear') {
@@ -277,13 +316,13 @@
 
         // Generate themed signatures
         function generateThemedSignatures() {
-            const data = {
-                fullName: document.getElementById('fullName').value.trim(),
-                jobTitle: document.getElementById('jobTitle').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                mobile: document.getElementById('mobile').value.trim(),
-                website: document.getElementById('website').value.trim() || 'alterspective.com.au'
-            };
+            const data = getFormData();
+
+            // Validate before generation
+            if (!isFormValid(data)) {
+                // Don't show error for partial form fills during typing
+                return;
+            }
 
             try {
                 // Store data for re-generation on theme change
@@ -332,16 +371,7 @@
 
         // Create debounced version of generateThemedSignatures
         const debouncedGenerate = debounce(() => {
-            // Only regenerate if we have required fields filled
-            const fullName = document.getElementById('fullName').value.trim();
-            const jobTitle = document.getElementById('jobTitle').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const mobile = document.getElementById('mobile').value.trim();
-
-            // Check if minimum required fields are filled
-            if (fullName && jobTitle && email && mobile) {
-                generateThemedSignatures();
-            }
+            generateThemedSignatures(); // Validation happens inside
         }, 500); // 500ms delay
 
         // Event listeners
@@ -403,18 +433,6 @@
         // Initialize theme on page load
         themeManager.applyThemeToElement(document.body);
         updateButtonIcon(themeManager.getCurrentTheme());
-
-        // Auto-generate on page load if form has default values
-        setTimeout(() => {
-            const fullName = document.getElementById('fullName').value.trim();
-            const jobTitle = document.getElementById('jobTitle').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const mobile = document.getElementById('mobile').value.trim();
-
-            if (fullName && jobTitle && email && mobile) {
-                generateThemedSignatures();
-            }
-        }, 500); // Small delay to ensure everything is loaded
     </script>
 </body>
 </html>
