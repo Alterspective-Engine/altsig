@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterspective Themed Email Signatures - Seasonal & Festive</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/styles/main.css">
+    <link rel="stylesheet" href="assets/styles/themes.css">
+</head>
+<body class="themed-page">
+
+    <div class="container">
+        <!-- Header with navigation back to standard -->
+        <div class="header">
+            <img src="assets/images/Alterspective_Logo_reversed_FA.png" alt="Alterspective Logo" style="height: 50px; margin-bottom: 20px;">
+            <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 300; letter-spacing: -0.5px;">
+                Themed Email Signatures
+                <span style="font-size: 0.6em; opacity: 0.8;">✨ Seasonal Edition</span>
+            </h1>
+            <p style="opacity: 0.95; margin-bottom: 20px;">Add a festive touch to your professional communications</p>
+
+            <!-- Navigation back to standard signatures -->
+            <a href="index.html" class="theme-nav-link">
+                <span class="icon">📧</span>
+                <span>Standard Signatures</span>
+            </a>
+        </div>
+
+        <div class="main-grid">
+            <!-- Left Column: Form and Theme Selector -->
+            <div>
+                <!-- Theme Selector Card -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <div id="theme-selector-container">
+                        <!-- Theme selector will be injected here by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Input Form Card -->
+                <div class="card">
+                    <h2>Your Information</h2>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" placeholder="e.g., Igor Jericevich" value="Igor Jericevich">
+                        <div class="hint">First and Last Name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title *</label>
+                        <input type="text" id="jobTitle" placeholder="e.g., Managing Director" value="Managing Director">
+                        <div class="hint">Official position</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" placeholder="e.g., name@alterspective.com.au" value="igor.jericevich@alterspective.com.au">
+                        <div class="hint">Company email</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number *</label>
+                        <input type="tel" id="mobile" placeholder="e.g., 0488 180 044" value="0488 180 044">
+                        <div class="hint">Australian format (with spaces)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">Website (optional)</label>
+                        <input type="text" id="website" placeholder="alterspective.com.au" value="alterspective.com.au">
+                        <div class="hint">Leave default or customize</div>
+                    </div>
+
+                    <button class="btn" id="generateBtn">
+                        <span id="btnIcon">🎨</span> Generate Themed Signatures
+                    </button>
+
+                    <div class="specs-card">
+                        <h3>Themed Features</h3>
+                        <ul>
+                            <li><strong>Seasonal Colors:</strong> Automatically adjusted for the season</li>
+                            <li><strong>Tasteful Decorations:</strong> Professional with festive touches</li>
+                            <li><strong>Custom Messages:</strong> Optional seasonal greetings</li>
+                            <li><strong>Flexible Intensity:</strong> Choose subtle to festive</li>
+                            <li><strong>Email Compatible:</strong> Works in all email clients</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Dual Preview -->
+            <div style="grid-column: span 2;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+
+                    <!-- New Email Signature Preview -->
+                    <div class="card themed-preview">
+                        <h2 style="display: flex; align-items: center; gap: 10px;">
+                            <span id="newEmailIcon">📧</span>
+                            <span>New Email - Themed</span>
+                        </h2>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px; padding: 10px; background: #f0f8ff; border-radius: 6px; border-left: 3px solid var(--theme-secondary);">
+                            <strong>Perfect for:</strong> Holiday greetings, seasonal messages, festive communications
+                        </div>
+                        <div id="previewNew" style="min-height: 150px; background: #f8f8f8; border-radius: 8px; padding: 20px; display: flex; align-items: center; justify-content: center;">
+                            <p style="color: #666; text-align: center;">
+                                Click "Generate Themed Signatures" to see your seasonal signature
+                            </p>
+                        </div>
+
+                        <div class="action-buttons" style="margin-top: 15px;">
+                            <button class="btn btn-secondary" id="copyNewBtn" disabled>📋 Copy Themed</button>
+                            <button class="btn btn-secondary" id="downloadNewBtn" disabled>💾 Download HTML</button>
+                        </div>
+
+                        <div class="success-message" id="successMsgNew" style="display: none;">
+                            ✓ Themed signature copied! Paste into Outlook (Ctrl+V)
+                        </div>
+                    </div>
+
+                    <!-- Reply Signature Preview -->
+                    <div class="card themed-preview">
+                        <h2 style="display: flex; align-items: center; gap: 10px;">
+                            <span id="replyIcon">↩️</span>
+                            <span>Reply - Themed</span>
+                            <span style="font-size: 0.7em; background: var(--theme-accent); color: var(--theme-primary); padding: 4px 8px; border-radius: 4px; font-weight: 600;">COMPACT</span>
+                        </h2>
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 15px; padding: 10px; background: #f0fff0; border-radius: 6px; border-left: 3px solid var(--theme-accent);">
+                            <strong>Perfect for:</strong> Quick replies with a subtle seasonal touch
+                        </div>
+                        <div id="previewReply" style="min-height: 150px; background: #f8f8f8; border-radius: 8px; padding: 20px; display: flex; align-items: center; justify-content: center;">
+                            <p style="color: #666; text-align: center;">
+                                Click "Generate Themed Signatures" to see compact seasonal version
+                            </p>
+                        </div>
+
+                        <div class="action-buttons" style="margin-top: 15px;">
+                            <button class="btn btn-secondary" id="copyReplyBtn" disabled>📋 Copy Reply</button>
+                            <button class="btn btn-secondary" id="downloadReplyBtn" disabled>💾 Download HTML</button>
+                        </div>
+
+                        <div class="success-message" id="successMsgReply" style="display: none;">
+                            ✓ Reply signature copied! Paste into Outlook (Ctrl+V)
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Theme Information Card -->
+                <div class="card" style="margin-top: 20px;">
+                    <h3>About Themed Signatures</h3>
+                    <p style="margin-bottom: 15px;">
+                        Our themed signatures add a touch of seasonal spirit while maintaining professionalism.
+                        They're perfect for spreading holiday cheer or celebrating special occasions.
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div>
+                            <h4 style="color: var(--theme-secondary); margin-bottom: 10px;">Current Themes Available:</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 5px 0;">🎄 <strong>Christmas</strong> - Nov 20 - Dec 31</li>
+                                <li style="padding: 5px 0;">🎊 <strong>New Year</strong> - Dec 26 - Jan 10</li>
+                                <li style="padding: 5px 0; opacity: 0.5;">🐰 <strong>Easter</strong> - Coming Soon</li>
+                                <li style="padding: 5px 0; opacity: 0.5;">🎃 <strong>Halloween</strong> - Coming Soon</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--theme-secondary); margin-bottom: 10px;">Tips:</h4>
+                            <ul style="font-size: 0.9em; color: #666;">
+                                <li style="margin-bottom: 8px;">✓ Themes auto-detect based on current date</li>
+                                <li style="margin-bottom: 8px;">✓ You can manually override the selection</li>
+                                <li style="margin-bottom: 8px;">✓ Adjust decoration intensity to your preference</li>
+                                <li style="margin-bottom: 8px;">✓ All themes work perfectly in Outlook</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Themed Application JavaScript -->
+    <script type="module">
+        import { CONFIG } from './assets/scripts/config.js';
+        import { ThemedSignatureGenerator } from './assets/scripts/themes/themed-signature-generator.js';
+        import { ThemeManager } from './assets/scripts/themes/theme-manager.js';
+        import { themeService } from './assets/scripts/themes/theme-config.js';
+        import { ClipboardHandler } from './assets/scripts/clipboard-handler.js';
+        import { DownloadHandler } from './assets/scripts/download-handler.js';
+
+        // Create theme manager instance first (without callback)
+        const themeManager = new ThemeManager(themeService);
+
+        // Set the callback after creation to avoid circular reference
+        themeManager.onThemeChange = (theme) => {
+            // Update page styling based on theme
+            document.body.className = `themed-page theme-${theme.id} decoration-${themeManager.decorationLevel}`;
+
+            // Update button icon based on theme
+            updateButtonIcon(theme);
+
+            // Re-generate signatures if they exist
+            if (window.lastGeneratedData) {
+                generateThemedSignatures();
+            }
+        };
+
+        // Trigger initial theme application
+        if (themeManager.currentTheme) {
+            themeManager.onThemeChange(themeManager.currentTheme);
+        }
+
+        // Create theme selector UI
+        const selectorContainer = document.getElementById('theme-selector-container');
+        if (selectorContainer) {
+            selectorContainer.appendChild(themeManager.createThemeSelector());
+        }
+
+        // Create a mutable config object that extends CONFIG
+        const mutableConfig = {
+            ...CONFIG,
+            logo: {
+                ...CONFIG.logo,
+                christmasBase64: null  // Will be populated when loaded
+            }
+        };
+
+        // Load Christmas logo base64 if needed (transparent version)
+        async function loadChristmasLogo() {
+            try {
+                const response = await fetch('assets/images/Themes/Christmass/christmass-transparent-base64.txt');
+                if (response.ok) {
+                    const base64Text = await response.text();
+                    mutableConfig.logo.christmasBase64 = `data:image/png;base64,${base64Text}`;
+                    console.log('Christmas logo (transparent) loaded successfully');
+                }
+            } catch (error) {
+                console.warn('Could not load Christmas logo:', error);
+            }
+        }
+
+        // Load Christmas logo on page load
+        loadChristmasLogo();
+
+        // Initialize signature generator with mutable config
+        const signatureGenerator = new ThemedSignatureGenerator(mutableConfig);
+        signatureGenerator.setThemeManager(themeManager);
+        const clipboardHandler = new ClipboardHandler(CONFIG);
+        const downloadHandler = new DownloadHandler(CONFIG);
+
+        // Store generated HTML
+        window.newEmailHTML = null;
+        window.replyHTML = null;
+        window.lastGeneratedData = null;
+
+        // Update button icon based on current theme
+        function updateButtonIcon(theme) {
+            const btnIcon = document.getElementById('btnIcon');
+            if (theme.id === 'christmas') {
+                btnIcon.textContent = '🎄';
+            } else if (theme.id === 'newYear') {
+                btnIcon.textContent = '🎊';
+            } else {
+                btnIcon.textContent = '🎨';
+            }
+        }
+
+        // Generate themed signatures
+        function generateThemedSignatures() {
+            const data = {
+                fullName: document.getElementById('fullName').value.trim(),
+                jobTitle: document.getElementById('jobTitle').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                mobile: document.getElementById('mobile').value.trim(),
+                website: document.getElementById('website').value.trim() || 'alterspective.com.au'
+            };
+
+            try {
+                // Store data for re-generation on theme change
+                window.lastGeneratedData = data;
+
+                // Generate both signatures
+                window.newEmailHTML = signatureGenerator.generateThemedNewEmailSignature(data);
+                window.replyHTML = signatureGenerator.generateThemedReplySignature(data);
+
+                // Extract tables for preview
+                const newEmailTable = signatureGenerator.extractTableForPreview(window.newEmailHTML);
+                const replyTable = signatureGenerator.extractTableForPreview(window.replyHTML);
+
+                // Display previews
+                document.getElementById('previewNew').innerHTML = newEmailTable;
+                document.getElementById('previewReply').innerHTML = replyTable;
+
+                // Enable action buttons
+                document.getElementById('copyNewBtn').disabled = false;
+                document.getElementById('downloadNewBtn').disabled = false;
+                document.getElementById('copyReplyBtn').disabled = false;
+                document.getElementById('downloadReplyBtn').disabled = false;
+
+                // Clear any previous success messages
+                document.getElementById('successMsgNew').style.display = 'none';
+                document.getElementById('successMsgReply').style.display = 'none';
+
+            } catch (error) {
+                alert('Error generating signatures: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('generateBtn').addEventListener('click', generateThemedSignatures);
+
+        // Copy buttons
+        document.getElementById('copyNewBtn').addEventListener('click', async () => {
+            if (window.newEmailHTML) {
+                const success = await clipboardHandler.copyHtmlSignature(window.newEmailHTML);
+                if (success) {
+                    const msg = document.getElementById('successMsgNew');
+                    msg.style.display = 'block';
+                    setTimeout(() => msg.style.display = 'none', 3000);
+                }
+            }
+        });
+
+        document.getElementById('copyReplyBtn').addEventListener('click', async () => {
+            if (window.replyHTML) {
+                const success = await clipboardHandler.copyHtmlSignature(window.replyHTML);
+                if (success) {
+                    const msg = document.getElementById('successMsgReply');
+                    msg.style.display = 'block';
+                    setTimeout(() => msg.style.display = 'none', 3000);
+                }
+            }
+        });
+
+        // Download buttons
+        document.getElementById('downloadNewBtn').addEventListener('click', () => {
+            if (window.newEmailHTML) {
+                const theme = themeManager.getCurrentTheme();
+                downloadHandler.downloadSignature(
+                    window.newEmailHTML,
+                    `alterspective-signature-${theme.id}-new.html`
+                );
+            }
+        });
+
+        document.getElementById('downloadReplyBtn').addEventListener('click', () => {
+            if (window.replyHTML) {
+                const theme = themeManager.getCurrentTheme();
+                downloadHandler.downloadSignature(
+                    window.replyHTML,
+                    `alterspective-signature-${theme.id}-reply.html`
+                );
+            }
+        });
+
+        // Initialize theme on page load
+        themeManager.applyThemeToElement(document.body);
+        updateButtonIcon(themeManager.getCurrentTheme());
+    </script>
+</body>
+</html>

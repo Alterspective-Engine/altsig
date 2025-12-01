@@ -2,6 +2,166 @@
 
 All notable changes to the AltSig Email Signature Generator project.
 
+## [3.0.0] - 2025-12-01
+
+### Added - Themed Signatures Feature 🎨✨
+
+#### New Feature: Seasonal & Event Themed Signatures
+**Purpose:** Add tasteful festive touches to professional email signatures for holidays and special events.
+
+**Key Features:**
+- 🎄 **Multiple Themes** - Christmas, New Year, and more seasonal themes
+- 🎨 **Theme Auto-Detection** - Automatically selects appropriate theme based on date
+- ✨ **Adjustable Decorations** - Three levels: Subtle, Normal, Festive
+- 🔄 **Manual Override** - Option to manually select any theme
+- 💾 **Preference Memory** - Saves theme selections across sessions
+- 📧 **Email Safe** - All themes maintain email client compatibility
+- 🎅 **Visual Decorations** - Festive elements on logos (Santa hat, sparkles)
+
+**Available Themes:**
+1. **Christmas Theme** (Nov 20 - Dec 31)
+   - Colors: Christmas green (#165B33), Holly red (#BB2528), Red accent (#EA4630)
+   - Decorations: 🎅 Santa emoji on logo (positioned on "A"), 🎄 tree icon option
+   - Red divider line (3px solid for festive, 2px for normal)
+   - Greeting: "Wishing you a wonderful holiday season!"
+   - Footer: "Season's Greetings"
+
+2. **New Year Theme** (Dec 26 - Jan 10)
+   - Colors: Gold (#FFD700), Silver (#C0C0C0), Gold links (#B8860B)
+   - Decorations: ✨🎊🎉 Sparkles around logo in corners
+   - Gold dotted divider (champagne effect)
+   - Greeting: "Best wishes for the New Year"
+   - Footer: "Here's to a prosperous 2025!"
+
+3. **Standard Theme** (Always available)
+   - Classic Alterspective branding
+   - Professional, year-round design
+   - Standard green (#2C8248) and lime (#ABDD65)
+
+**Future Themes (Planned):**
+- Easter (Spring pastels)
+- Halloween (Autumn colors)
+- Company anniversaries
+
+#### Technical Architecture
+
+**New Infrastructure:**
+- **Theme System** - Modular, extensible theme framework
+- **Theme Manager** - Handles theme selection, switching, and persistence
+- **Themed Generator** - Extends base generator with theme elements
+- **Static Implementation** - Remains a static site (no server needed)
+
+**New Files Created:**
+```
+public/
+├── themed-signatures.html              # New themed signatures page
+├── assets/
+│   ├── scripts/themes/
+│   │   ├── theme-config.js            # Theme definitions and settings
+│   │   ├── theme-manager.js           # Theme management logic
+│   │   └── themed-signature-generator.js # Themed signature generation
+│   └── styles/
+│       └── themes.css                  # Theme-specific styling
+└── tests/
+    └── themed-signatures.spec.js      # Comprehensive test suite
+```
+
+#### User Experience
+
+**Theme Selector Interface:**
+- Visual theme preview buttons
+- Auto-detect toggle switch
+- Decoration intensity slider
+- In-season badges for relevant themes
+
+**Generation Workflow:**
+1. Navigate to themed signatures page
+2. Theme auto-selects based on current date
+3. Optionally override theme selection
+4. Adjust decoration level if desired
+5. Fill in employee information
+6. Generate themed signatures
+7. Copy or download as usual
+
+**Navigation:**
+- Main page: "🎄 Try Festive Signatures" button
+- Themed page: "📧 Standard Signatures" link back
+
+#### Design Principles
+
+**Professional First:**
+- Subtle, tasteful decorations
+- Brand consistency maintained
+- Professional colors and fonts
+- Optional festive elements
+
+**Email Compatibility:**
+- Table-based layouts preserved
+- Inline CSS only
+- No modern CSS features
+- Tested in Outlook
+
+**User Control:**
+- Themes are optional
+- Decoration levels adjustable
+- Manual override available
+- Easy to disable
+
+#### Testing & Quality
+
+**Test Coverage:**
+- 13 comprehensive test scenarios
+- Theme switching tests
+- Decoration level tests
+- Persistence tests
+- Email HTML validation
+
+**Browser Support:**
+- All modern browsers
+- Mobile responsive
+- Progressive enhancement
+
+### Changed
+- Main index.html: Added navigation link to themed signatures
+- Project now offers two signature experiences: Standard and Themed
+
+### Fixed (2025-12-01)
+
+#### Theme Priority Issue
+**Problem:** Standard theme was always selected instead of seasonal themes
+**Cause:** Theme selection checked "Standard" first, which always matches (dateRange: null)
+**Fix:** Modified `getCurrentTheme()` to check seasonal themes first, fallback to Standard only if no seasonal theme matches
+
+#### Logo Decoration Implementation
+**Problem:** Christmas hat decoration wasn't showing on logo
+**Cause:** Placeholder code didn't implement actual decorations
+**Fix:** Added email-safe HTML table structure with emoji decorations:
+- Christmas: 🎅 Santa emoji positioned above logo to simulate hat on "A"
+- New Year: ✨🎊🎉 Sparkles in corners around logo
+
+#### SOLID Principle Compliance
+**Refactored:** Complete code review and refactoring for SOLID principles
+- Separated data from logic (Single Responsibility)
+- Implemented proper dependency injection (Dependency Inversion)
+- Added interface validation (Interface Segregation)
+- Fixed circular references and memory leaks
+- Added comprehensive error handling
+
+### Technical Benefits
+- **Static Site Maintained** - No server-side requirements
+- **Modular Architecture** - Easy to add new themes
+- **Clean Separation** - Themed functionality isolated from core
+- **Backward Compatible** - Existing signatures unchanged
+- **SOLID Compliant** - Following all 5 SOLID principles
+
+### Performance
+- Themes load instantly (client-side only)
+- Minimal file size increase (~15KB for theme system)
+- Cached theme preferences
+- No external dependencies
+
+---
+
 ## [2.0.0] - 2025-11-17
 
 ### Added - Reply Signature Feature ✨
