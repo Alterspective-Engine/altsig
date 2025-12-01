@@ -204,8 +204,13 @@
             // Update button icon based on theme
             updateButtonIcon(theme);
 
-            // Re-generate signatures if they exist
-            if (window.lastGeneratedData) {
+            // Auto-regenerate signatures if form has valid data
+            const fullName = document.getElementById('fullName').value.trim();
+            const jobTitle = document.getElementById('jobTitle').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+
+            if (fullName && jobTitle && email && mobile) {
                 generateThemedSignatures();
             }
         };
@@ -312,8 +317,44 @@
             }
         }
 
+        // Debounce function to limit how often signatures regenerate
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Create debounced version of generateThemedSignatures
+        const debouncedGenerate = debounce(() => {
+            // Only regenerate if we have required fields filled
+            const fullName = document.getElementById('fullName').value.trim();
+            const jobTitle = document.getElementById('jobTitle').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+
+            // Check if minimum required fields are filled
+            if (fullName && jobTitle && email && mobile) {
+                generateThemedSignatures();
+            }
+        }, 500); // 500ms delay
+
         // Event listeners
         document.getElementById('generateBtn').addEventListener('click', generateThemedSignatures);
+
+        // Add auto-regeneration on input changes
+        const formInputs = ['fullName', 'jobTitle', 'email', 'mobile', 'website'];
+        formInputs.forEach(inputId => {
+            const element = document.getElementById(inputId);
+            if (element) {
+                element.addEventListener('input', debouncedGenerate);
+            }
+        });
 
         // Copy buttons
         document.getElementById('copyNewBtn').addEventListener('click', async () => {
@@ -362,6 +403,18 @@
         // Initialize theme on page load
         themeManager.applyThemeToElement(document.body);
         updateButtonIcon(themeManager.getCurrentTheme());
+
+        // Auto-generate on page load if form has default values
+        setTimeout(() => {
+            const fullName = document.getElementById('fullName').value.trim();
+            const jobTitle = document.getElementById('jobTitle').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+
+            if (fullName && jobTitle && email && mobile) {
+                generateThemedSignatures();
+            }
+        }, 500); // Small delay to ensure everything is loaded
     </script>
 </body>
 </html>
