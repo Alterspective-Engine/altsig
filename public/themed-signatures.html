@@ -250,8 +250,8 @@
         // Initialize signature generator with mutable config
         const signatureGenerator = new ThemedSignatureGenerator(mutableConfig);
         signatureGenerator.setThemeManager(themeManager);
-        const clipboardHandler = new ClipboardHandler(CONFIG);
-        const downloadHandler = new DownloadHandler(CONFIG);
+        const clipboardHandler = new ClipboardHandler(mutableConfig);
+        const downloadHandler = new DownloadHandler(mutableConfig);
 
         // Store generated HTML
         window.newEmailHTML = null;
@@ -318,7 +318,7 @@
         // Copy buttons
         document.getElementById('copyNewBtn').addEventListener('click', async () => {
             if (window.newEmailHTML) {
-                const success = await clipboardHandler.copyHtmlSignature(window.newEmailHTML);
+                const success = await clipboardHandler.copySignature(window.newEmailHTML);
                 if (success) {
                     const msg = document.getElementById('successMsgNew');
                     msg.style.display = 'block';
@@ -329,7 +329,7 @@
 
         document.getElementById('copyReplyBtn').addEventListener('click', async () => {
             if (window.replyHTML) {
-                const success = await clipboardHandler.copyHtmlSignature(window.replyHTML);
+                const success = await clipboardHandler.copySignature(window.replyHTML);
                 if (success) {
                     const msg = document.getElementById('successMsgReply');
                     msg.style.display = 'block';
