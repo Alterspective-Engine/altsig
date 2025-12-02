@@ -353,7 +353,8 @@ export class ThemedSignatureGenerator extends SignatureGenerator {
      * @private
      */
     _getThemeFooterMessage(theme, colors, intensity) {
-        if (!theme?.messages?.footer || intensity < 0.5) {
+        // Always show footer for Christmas theme (office closure message)
+        if (!theme?.messages?.footer) {
             return '';
         }
 
@@ -363,9 +364,9 @@ export class ThemedSignatureGenerator extends SignatureGenerator {
         const safeFooter = div.innerHTML;
 
         return `
-            <!-- Seasonal footer message -->
+            <!-- Office closure message -->
             <tr>
-                <td style="font-family: ${this.config.fonts.signatureBody}; font-size: 11px; color: ${colors.accent}; padding-top: 5px; font-style: italic; line-height: 100%;">
+                <td style="font-family: ${this.config.fonts.signatureBody}; font-size: 11px; color: #666; padding-top: 10px; font-style: italic; line-height: 1.4;">
                     ${safeFooter}
                 </td>
             </tr>

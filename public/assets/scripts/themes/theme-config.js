@@ -46,46 +46,37 @@ export const THEMES = {
     christmas: {
         id: 'christmas',
         name: 'Christmas',
-        description: 'Festive holiday theme with subtle seasonal touches',
+        description: 'Holiday office closure period',
         available: true,
         dateRange: {
             start: { month: 11, day: 20 },
             end: { month: 12, day: 31 }
         },
         colors: {
-            primary: '#17232D',
-            secondary: '#165B33',
-            accent: '#EA4630',
-            divider: '#BB2528',
-            text: '#17232D',
-            link: '#165B33'
+            primary: '#17232D',      // Keep standard colors
+            secondary: '#2C8248',    // Keep standard green
+            accent: '#ABDD65',       // Keep standard accent
+            divider: '#2C8248',      // Keep standard divider
+            text: '#17232D',         // Keep standard text
+            link: '#2C8248'          // Keep standard link
         },
         logo: {
             type: 'themed',
-            path: 'assets/images/Themes/Christmass/Christmass.png',
-            symbolPath: 'assets/images/Themes/Christmass/Christmass.png',
-            base64Path: 'assets/images/Themes/Christmass/christmass-base64.txt',
+            path: 'assets/images/Themes/Christmass/Christmass-transparent.png',
+            symbolPath: 'assets/images/Themes/Christmass/Christmass-transparent.png',
+            base64Path: 'assets/images/Themes/Christmass/christmass-transparent-base64.txt',
             overlay: null,
             overlayPosition: null,
             overlaySize: null
         },
         decorations: {
-            enabled: true,
-            dividerStyle: 'holly',
-            snowflakes: {
-                enabled: true,
-                opacity: 0.05,
-                count: 3
-            },
-            icons: {
-                before: '🎄',
-                after: null
-            }
+            enabled: false,    // No decorations
+            icons: {}         // No icons
         },
         messages: {
-            footer: 'Season\'s Greetings',
-            greeting: 'Wishing you a wonderful holiday season!',
-            signoff: 'Happy Holidays,'
+            footer: "We're taking a moment to slow down, recharge and reset for the year ahead. The team will be offline from Monday 23 December to Friday 3 January, returning with fresh energy and new perspective for 2025.",
+            greeting: null,    // No greeting
+            signoff: null     // No special signoff
         }
     },
 
@@ -93,7 +84,7 @@ export const THEMES = {
         id: 'newYear',
         name: 'New Year',
         description: 'Celebrate the new year with elegance',
-        available: true,
+        available: false,  // Disabled to avoid confusion
         dateRange: {
             start: { month: 12, day: 26 },
             end: { month: 1, day: 10 }
