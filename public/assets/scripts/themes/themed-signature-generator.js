@@ -198,17 +198,9 @@ export class ThemedSignatureGenerator extends SignatureGenerator {
 </head>
 <body style="margin: 0; padding: 0; font-family: ${this.config.fonts.signatureBody};">
 
-    <!-- THEMED REPLY SIGNATURE TABLE - COMPACT -->
+    <!-- THEMED REPLY SIGNATURE TABLE - COMPACT (NO LOGO) -->
     <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${this.config.fonts.signatureBody}; border-collapse: collapse;">
         <tr>
-            <!-- Small logo/symbol -->
-            <td rowspan="3" style="vertical-align: middle; padding-right: 10px; ${dividerStyle}">
-                ${this._getThemedLogoHtml(theme, logoSrc, true, decorationIntensity * 0.5)} <!-- Reduced decoration for reply -->
-            </td>
-
-            <!-- Spacer -->
-            <td rowspan="3" style="width: 10px;">&nbsp;</td>
-
             <!-- Line 1: Name & Title -->
             <td style="font-family: ${this.config.fonts.signatureBody}; font-size: 13px; font-weight: 600; color: ${colors.text}; padding: 0 0 2px 0; line-height: 1.2;">
                 ${this._escapeHtml(data.fullName)}
@@ -268,7 +260,7 @@ export class ThemedSignatureGenerator extends SignatureGenerator {
      * @private
      */
     _getThemedLogoHtml(theme, logoSrc, isReply = false, intensity = 1) {
-        const size = isReply ? 40 : 120;
+        const size = isReply ? 40 : 124;  // Increased from 120 to 124 (3.3% larger)
 
         // For Christmas theme, the logoSrc already contains the Christmas logo
         // Just use it directly without any emoji decorations
