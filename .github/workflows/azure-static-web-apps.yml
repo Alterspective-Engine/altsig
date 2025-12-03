@@ -31,14 +31,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Skip tests for now to ensure deployment works
-      # - name: Install Playwright Browsers
-      #   run: npx playwright install --with-deps
+      # Make tests non-blocking to avoid deployment delays
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+        continue-on-error: true
+        timeout-minutes: 2
 
-      # - name: Run tests
-      #   run: npm test
-      #   continue-on-error: true
-      #   timeout-minutes: 5
+      - name: Run tests
+        run: npm test || true
+        timeout-minutes: 3
 
       - name: Build Application
         run: |
