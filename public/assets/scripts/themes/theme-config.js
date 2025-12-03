@@ -74,7 +74,7 @@ export const THEMES = {
             icons: {}         // No icons
         },
         messages: {
-            footer: "We're taking a moment to slow down, recharge and reset for the year ahead. The team will be offline from Monday 23 December to Friday 3 January, returning with fresh energy and new perspective for 2025.",
+            footer: "We're taking a moment to slow down, recharge and reset for the year ahead. The team will be offline from Monday 23 December to Friday 2 January, returning with fresh energy and new perspective for 2026.",
             greeting: null,    // No greeting
             signoff: null     // No special signoff
         }
