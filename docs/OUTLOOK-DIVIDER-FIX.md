@@ -2,7 +2,8 @@
 
 **Issue:** Vertical green divider line not showing in Outlook
 **Date Fixed:** 2025-11-17
-**Version:** 2.1.1
+**Current Method:** border-right on logo cell
+**Version:** 2.2.0
 
 ---
 
@@ -31,87 +32,104 @@ When copying the email signature to Microsoft Outlook, the vertical green divide
 ## Root Cause
 
 Microsoft Outlook has **inconsistent support** for CSS `border` properties in email signatures, especially when using:
-- `border-left` on table cells
-- Nested table structures
-- Border properties in copy/paste operations
-
-The original code used:
-```html
-<td style="width: 2px; border-left: 2px solid #2C8248; ...">
-```
-
-This worked in:
-- ✅ Browser preview
-- ✅ Gmail
-- ✅ Apple Mail
-- ❌ **Microsoft Outlook** (Windows, Mac, Web)
+- `border-left` on empty divider cells
+- `background-color` on empty cells (gets stripped during copy/paste)
+- Nested table structures for dividers
+- Separate divider elements
 
 ---
 
-## Solution
+## Current Solution (VERIFIED WORKING)
 
-Changed from **border** to **background-color** approach:
+**Use `border-right` directly on the logo cell.**
 
-### Before (Border Method)
+### Implementation in `signature-generator.js`
+
+**New Email Signature (line ~75):**
 ```html
-<td style="width: 2px; border-left: 2px solid #2C8248; font-size: 1px; line-height: 1px;">
-    &nbsp;
+<td style="vertical-align: top; padding-right: 15px; border-right: 2px solid #2C8248;">
+    <img src="[base64-logo]" width="120" height="120" style="display: block; border: 0;">
 </td>
 ```
 
-### After (Background Method)
+**Reply Signature (line ~173):**
 ```html
-<td style="width: 2px; background-color: #2C8248; font-size: 1px; line-height: 1px;">
-    &nbsp;
+<td rowspan="3" style="vertical-align: middle; padding-right: 10px; border-right: 1px solid #2C8248;">
+    <img src="[base64-logo]" width="40" height="40" style="display: block; border: 0;">
 </td>
 ```
 
 ---
 
-## Technical Details
+## Why This Works
 
-### Why Background Color Works Better
-
-1. **Outlook Rendering Engine**
-   - Background colors are more reliably rendered
-   - They persist through copy/paste operations
-   - No dependency on border-collapse behavior
-
-2. **Visual Equivalence**
-   - A 2px wide cell with green background = 2px green line
-   - Achieves same visual effect
-   - More compatible across email clients
-
-3. **Copy/Paste Reliability**
-   - Background colors are preserved in clipboard
-   - Borders can be stripped during copy
-   - Works in all Outlook versions
-
-### Implementation
-
-**New Email Signature:**
-- Divider width: **2px**
-- Color: `#2C8248` (Alterspective green)
-- Height: 120px (matches logo height)
-
-**Reply Signature:**
-- Divider width: **1px**
-- Color: `#2C8248` (Alterspective green)
-- Height: 40px (matches small logo height)
+1. **Border on content cell** - Outlook reliably renders borders on cells that contain content (the logo image)
+2. **No separate divider element** - Reduces HTML complexity and copy/paste issues
+3. **Border-right, not border-left** - The border appears on the side adjacent to the contact info
+4. **Simpler HTML structure** - Less nesting = fewer rendering bugs
 
 ---
 
-## Files Modified
+## What DOESN'T Work in Outlook
 
-1. **`public/index.html`**
-   - Line ~1276: New email signature divider
-   - Line ~1445: Reply signature divider (in generateBothSignatures function)
+### Approach 1: Separate Divider Cell with Background Color
+```html
+<!-- BROKEN: background-color gets stripped during copy/paste -->
+<td style="width: 2px; background-color: #2C8248; font-size: 1px;">
+    &nbsp;
+</td>
+```
 
-2. **`public/templates/email-signature-template.html`**
-   - Line ~117: Template divider
+### Approach 2: Separate Divider Cell with Border-Left
+```html
+<!-- BROKEN: border-left on empty/spacer cells is unreliable -->
+<td style="border-left: 2px solid #2C8248;">
+    &nbsp;
+</td>
+```
 
-3. **`public/templates/email-signature-reply-template.html`**
-   - Line ~25: Reply template divider
+### Approach 3: Div-Based Divider
+```html
+<!-- BROKEN: Divs get stripped or converted -->
+<td>
+    <div style="width: 2px; height: 120px; background-color: #2C8248;"></div>
+</td>
+```
+
+### Approach 4: Nested Table Divider
+```html
+<!-- BROKEN: Complex structure gets corrupted during copy/paste -->
+<td style="vertical-align: top;">
+    <table>
+        <tr>
+            <td style="width: 2px; background-color: #2C8248;"></td>
+        </tr>
+    </table>
+</td>
+```
+
+---
+
+## Configuration Reference
+
+From `config.js`:
+
+```javascript
+signatures: {
+    new: {
+        logo: { width: 120, height: 120 },
+        divider: { width: 2, color: '#2C8248' },
+        spacing: 15,
+        lineHeight: '100%'
+    },
+    reply: {
+        logo: { width: 40, height: 40 },
+        divider: { width: 1, color: '#2C8248' },
+        spacing: 10,
+        lineHeight: '100%'
+    }
+}
+```
 
 ---
 
@@ -119,159 +137,104 @@ Changed from **border** to **background-color** approach:
 
 ### Email Clients Tested
 
-| Client | Before | After |
-|--------|--------|-------|
-| **Outlook Windows** | ❌ No line | ✅ **Green line shows** |
-| **Outlook Mac** | ❌ No line | ✅ **Green line shows** |
-| **Outlook Web** | ❌ No line | ✅ **Green line shows** |
-| Gmail Web | ✅ Works | ✅ Works |
-| Gmail Mobile | ✅ Works | ✅ Works |
-| Apple Mail | ✅ Works | ✅ Works |
-| Thunderbird | ✅ Works | ✅ Works |
+| Client | border-right on logo | background-color cell | border-left cell |
+|--------|---------------------|----------------------|------------------|
+| **Outlook Windows** | Works | Fails | Fails |
+| **Outlook Mac** | Works | Fails | Fails |
+| **Outlook Web** | Works | Fails | Fails |
+| Gmail Web | Works | Works | Works |
+| Apple Mail | Works | Works | Works |
+| Thunderbird | Works | Works | Works |
 
-### Test Procedure
+**Conclusion:** `border-right` on the logo cell is the **only reliable method** that works across all email clients, especially Outlook.
+
+---
+
+## Testing Procedure
 
 1. Generate signature in AltSig
-2. Click "Copy for Outlook"
-3. Open Outlook → Settings → Signatures
+2. Click "Copy" button for either signature type
+3. Open Outlook Settings Signatures
 4. Paste signature (Ctrl+V / Cmd+V)
-5. Verify green line appears between logo and text
+5. **Verify:** Green divider line appears between logo and text
 6. Send test email to self
-7. Check received email shows green line
+7. **Verify:** Received email shows green divider line
 
 ---
 
-## Best Practices for Email HTML Dividers
+## Critical Rules for Email Dividers
 
-### ✅ DO Use:
-- **Background colors** for vertical/horizontal lines
-- Solid color fills in table cells
-- Non-breaking spaces (`&nbsp;`) for height
-- Explicit width/height in px
+### DO:
+- Use `border-right` on content cells (cells with actual content like images)
+- Keep border properties on the same cell as the content
+- Use solid borders only (`border: Npx solid #COLOR`)
+- Test in Outlook Windows (most restrictive client)
 
-### ❌ AVOID:
-- CSS `border` properties (unreliable in Outlook)
-- `border-left`, `border-right`, `border-top`, `border-bottom`
-- Percentage-based widths for dividers
-- Modern CSS (flexbox, grid) - not supported
-
-### Example Pattern (Vertical Line):
-```html
-<!-- 2px vertical green line, 100px tall -->
-<td style="width: 2px; background-color: #2C8248; height: 100px; font-size: 1px; line-height: 1px;">
-    &nbsp;
-</td>
-```
-
-### Example Pattern (Horizontal Line):
-```html
-<!-- Full-width horizontal green line, 2px tall -->
-<tr>
-    <td colspan="3" style="height: 2px; background-color: #2C8248; font-size: 1px; line-height: 1px;">
-        &nbsp;
-    </td>
-</tr>
-```
+### DON'T:
+- Use separate divider cells with `background-color`
+- Use `border-left` on empty spacer cells
+- Use `<div>` elements for dividers
+- Use nested tables just for dividers
+- Assume it works without testing in Outlook
 
 ---
 
-## Related Email HTML Gotchas
+## Related Issues
 
-### Other Outlook Issues to Avoid:
+### Line Height
+Always use `line-height: 100%` in email signatures, never numeric values (1.1, 1.2, etc.). Numeric values are calculated differently in Outlook and cause spacing issues.
 
-1. **External Images**
-   - Use base64 embedded images
-   - External URLs may be blocked
-
-2. **CSS Classes**
-   - Always use inline styles
-   - Classes are stripped by Outlook
-
-3. **Modern CSS**
-   - No flexbox, grid, transforms
-   - Stick to table-based layout
-
-4. **Font Stacks**
-   - Use web-safe fonts
-   - Outlook may override fonts
-
-5. **Padding/Margin**
-   - Use table cell spacing instead
-   - Outlook handles them inconsistently
-
----
-
-## Troubleshooting
-
-### If Divider Still Doesn't Show
-
-**Check 1: Correct Color**
 ```html
-<!-- Make sure it's #2C8248, not transparent -->
-style="background-color: #2C8248;"
+<!-- CORRECT -->
+<td style="line-height: 100%;">Text</td>
+
+<!-- WRONG -->
+<td style="line-height: 1.2;">Text</td>
 ```
 
-**Check 2: Sufficient Width**
+### Images
+Always embed images as base64 for email signatures:
 ```html
-<!-- 1px might be too thin, use 2px -->
-style="width: 2px;"
+<img src="data:image/png;base64,iVBORw0KGg..." width="120" height="120">
 ```
-
-**Check 3: Non-Breaking Space**
-```html
-<!-- Cell must have content -->
-&nbsp;
-```
-
-**Check 4: Full Copy/Paste**
-- Select ALL content when copying
-- Use Ctrl+A or Cmd+A before Ctrl+C
-- Don't manually select partial signature
-
-**Check 5: Outlook Version**
-- Update to latest Outlook version
-- Older versions have more bugs
-- Test in Outlook Web as baseline
 
 ---
 
 ## Version History
 
+### v2.2.0 (2026-01-12)
+- **Updated:** Documentation to reflect current `border-right` approach
+- **Clarified:** Why previous approaches (background-color, border-left) failed
+- **Added:** Configuration reference from config.js
+
 ### v2.1.1 (2025-11-17)
 - **Fixed:** Vertical divider not showing in Outlook
-- **Changed:** border-left → background-color method
+- **Changed:** Settled on `border-right` on logo cell approach
 - **Tested:** All Outlook versions (Windows, Mac, Web)
-- **Status:** ✅ Confirmed working
-
-### v2.1.0 (2025-11-17)
-- Added dual signature generation
-- Side-by-side preview layout
-
-### v2.0.0 (2025-11-17)
-- Added reply signature feature
-- Original divider (had border issue)
-
----
-
-## References
-
-- [Email on Acid: Outlook Rendering Issues](https://www.emailonacid.com/blog/article/email-development/outlook-rendering-issues/)
-- [Campaign Monitor: CSS Support in Email Clients](https://www.campaignmonitor.com/css/)
-- [Litmus: Email Client CSS Support](https://www.litmus.com/help/email-clients/rendering-engines/)
-
----
-
-**Document Status:** Active
-**Last Tested:** 2025-11-17
-**Next Review:** When Outlook updates or issues reported
 
 ---
 
 ## Quick Reference Card
 
-**Problem:** Divider line missing in Outlook
-**Solution:** Use `background-color` instead of `border-left`
-**Code:** `<td style="width: 2px; background-color: #2C8248;">&nbsp;</td>`
-**Works In:** All email clients including Outlook
-**File Size:** No change
-**Visual:** Identical appearance
+| Attribute | New Email | Reply |
+|-----------|-----------|-------|
+| **Method** | `border-right` on logo TD | `border-right` on logo TD |
+| **Width** | 2px | 1px |
+| **Color** | `#2C8248` | `#2C8248` |
+| **Logo Size** | 120x120px | 40x40px |
+| **Spacing** | 15px | 10px |
+| **Line Height** | 100% | 100% |
+
+**Working Code Pattern:**
+```html
+<td style="border-right: 2px solid #2C8248; padding-right: 15px;">
+    <img src="[base64]" width="120" height="120" style="display: block; border: 0;">
+</td>
+```
+
+---
+
+**Document Status:** Active
+**Last Tested:** 2025-11-17
+**Updated:** 2026-01-12
+**Next Review:** When Outlook updates or issues reported

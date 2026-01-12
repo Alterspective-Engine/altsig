@@ -73,10 +73,15 @@ export const CONFIG = {
     fonts: {
         // Web application fonts
         display: 'Montserrat, Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
-        
-        // Email signature fonts (email-safe)
-        signatureName: 'Georgia, serif',
-        signatureBody: 'Arial, Helvetica, sans-serif'
+
+        // Email signature fonts (brand-aligned with email-safe fallbacks)
+        // Chronicle Display fallback: Georgia (similar serif characteristics)
+        // Montserrat: Loads via Google Fonts, falls back to Arial for Outlook
+        signatureName: "Georgia, 'Times New Roman', Times, serif",
+        signatureBody: "Montserrat, Arial, Helvetica, sans-serif",
+
+        // Google Fonts import URL for email clients that support it
+        googleFontsImport: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap'
     },
     
     // Signature Specifications

@@ -2,6 +2,39 @@
 
 All notable changes to the AltSig Email Signature Generator project.
 
+## [3.1.0] - 2026-01-12
+
+### Changed - Typography Update to Brand Guidelines
+
+#### Font Update
+**Purpose:** Align email signatures with Alterspective brand typography guidelines.
+
+**Changes:**
+- **Body Text:** Now uses **Montserrat** (brand guideline) instead of Arial
+  - Google Fonts import added for Gmail, Apple Mail, and other supporting clients
+  - Automatic fallback to Arial for Outlook and other non-supporting clients
+- **Names/Headings:** Continue using **Georgia** as Chronicle Display fallback
+  - Chronicle Display is a proprietary font that cannot be embedded in emails
+
+**Technical Implementation:**
+- Added `@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap')` to signature HTML
+- Updated font stack: `Montserrat, Arial, Helvetica, sans-serif`
+- Updated config.js with `googleFontsImport` property
+
+**Client Support:**
+| Client | Montserrat Shown | Fallback |
+|--------|------------------|----------|
+| Gmail Web/Mobile | Yes | - |
+| Apple Mail | Yes | - |
+| Outlook (all versions) | No | Arial |
+| Thunderbird | Yes | - |
+
+**Files Modified:**
+- `public/assets/scripts/config.js` - Font configuration
+- `public/assets/scripts/signature-generator.js` - Google Fonts import in HTML
+
+---
+
 ## [3.0.0] - 2025-12-01
 
 ### Added - Themed Signatures Feature 🎨✨

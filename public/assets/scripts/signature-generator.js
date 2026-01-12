@@ -53,6 +53,10 @@ export class SignatureGenerator {
 <html>
 <head>
     <style type="text/css">
+        /* Import Montserrat for email clients that support web fonts (Gmail, Apple Mail) */
+        /* Outlook will fall back to Arial automatically */
+        @import url('${this.config.fonts.googleFontsImport}');
+
         /* Force green links in all email clients */
         a { color: ${colors.green} !important; text-decoration: none !important; }
         a:link { color: ${colors.green} !important; }
@@ -159,6 +163,9 @@ export class SignatureGenerator {
 <html>
 <head>
     <style type="text/css">
+        /* Import Montserrat for email clients that support web fonts (Gmail, Apple Mail) */
+        @import url('${this.config.fonts.googleFontsImport}');
+
         /* Force link colors in all email clients */
         a { text-decoration: none !important; }
     </style>
