@@ -109,7 +109,7 @@ export class SignatureGenerator {
                     <tr>
                         <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding-bottom: 5px; line-height: ${spec.lineHeight};">
                             <span style="color: ${colors.green}; font-weight: 600;">P:</span>
-                            <a href="tel:${mobileForLink}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.mobile)}</span></a>
+                            <a href="tel:${mobileForLink}" style="color: ${colors.navy} !important; text-decoration: none;"><font color="${colors.navy}"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.mobile)}</span></font></a>
                         </td>
                     </tr>
 
@@ -117,7 +117,7 @@ export class SignatureGenerator {
                     <tr>
                         <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding-bottom: 5px; line-height: ${spec.lineHeight};">
                             <span style="color: ${colors.green}; font-weight: 600;">E:</span>
-                            <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.email)}</span></a>
+                            <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.navy} !important; text-decoration: none;"><font color="${colors.navy}"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.email)}</span></font></a>
                         </td>
                     </tr>
 
@@ -125,7 +125,7 @@ export class SignatureGenerator {
                     <tr>
                         <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding-bottom: 15px; line-height: ${spec.lineHeight};">
                             <span style="color: ${colors.green}; font-weight: 600;">W:</span>
-                            <a href="https://${this._escapeHtml(data.website)}" style="color: ${colors.navy} !important; text-decoration: none;" target="_blank"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.website)}</span></a>
+                            <a href="https://${this._escapeHtml(data.website)}" style="color: ${colors.navy} !important; text-decoration: none;" target="_blank"><font color="${colors.navy}"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.website)}</span></font></a>
                         </td>
                     </tr>
 
@@ -196,13 +196,13 @@ export class SignatureGenerator {
         <tr>
             <!-- Line 2: Email -->
             <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding: 2px 0; line-height: 1.2;">
-                <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.email)}</span></a>
+                <a href="mailto:${this._escapeHtml(data.email)}" style="color: ${colors.navy} !important; text-decoration: none;"><font color="${colors.navy}"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.email)}</span></font></a>
             </td>
         </tr>
         <tr>
             <!-- Line 3: Mobile -->
             <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.contact}px; color: ${colors.navy}; padding: 2px 0 0 0; line-height: 1.2;">
-                m. <a href="tel:${mobileForLink}" style="color: ${colors.navy} !important; text-decoration: none;"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.mobile)}</span></a>
+                m. <a href="tel:${mobileForLink}" style="color: ${colors.navy} !important; text-decoration: none;"><font color="${colors.navy}"><span style="color: ${colors.navy} !important;">${this._escapeHtml(data.mobile)}</span></font></a>
             </td>
         </tr>
     </table>
