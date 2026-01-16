@@ -57,15 +57,8 @@ export class SignatureGenerator {
         /* Outlook will fall back to Arial automatically */
         @import url('${this.config.fonts.googleFontsImport}');
 
-        /* Force green links in all email clients */
-        a { color: ${colors.green} !important; text-decoration: none !important; }
-        a:link { color: ${colors.green} !important; }
-        a:visited { color: ${colors.green} !important; }
-        a:hover { color: ${colors.green} !important; }
-        a:active { color: ${colors.green} !important; }
-        span a { color: ${colors.green} !important; }
-        /* Outlook-specific link color override */
-        .ExternalClass a { color: ${colors.green} !important; }
+        /* Remove default link styling - colors controlled inline per link */
+        a { text-decoration: none !important; }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
