@@ -117,6 +117,118 @@ body {
 }
 
 /* ===================================
+   4b. FORM VALIDATION STATES
+   =================================== */
+
+.form-group .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.form-group .input-wrapper input {
+    padding-right: 40px;
+}
+
+.form-group .validation-icon {
+    position: absolute;
+    right: 12px;
+    font-size: 1.1em;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.form-group .validation-icon.show {
+    opacity: 1;
+}
+
+.form-group .validation-icon.valid {
+    color: #2C8248;
+}
+
+.form-group .validation-icon.invalid {
+    color: #dc3545;
+}
+
+.form-group input.valid {
+    border-color: #2C8248;
+}
+
+.form-group input.invalid {
+    border-color: #dc3545;
+}
+
+.form-group .error-message {
+    font-size: 0.85em;
+    color: #dc3545;
+    margin-top: 5px;
+    display: none;
+}
+
+.form-group .error-message.show {
+    display: block;
+}
+
+/* Tooltip for signature explanations */
+.info-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: help;
+    margin-left: 8px;
+}
+
+.info-tooltip .tooltip-icon {
+    width: 18px;
+    height: 18px;
+    background: #E5EEEF;
+    color: #075156;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    font-weight: 600;
+}
+
+.info-tooltip .tooltip-content {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #17232D;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 400;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+    max-width: 280px;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.4;
+}
+
+.info-tooltip .tooltip-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #17232D;
+}
+
+.info-tooltip:hover .tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ===================================
    5. BUTTONS
    =================================== */
 
@@ -142,6 +254,53 @@ body {
 
 .btn:active {
     transform: translateY(1px);
+}
+
+.btn:disabled {
+    background: #a0a0a0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn:disabled:hover {
+    background: #a0a0a0;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Form validity indicator on generate button */
+.btn.form-invalid {
+    background: #6c757d;
+}
+
+.btn.form-invalid:hover {
+    background: #5a6268;
 }
 
 .btn-secondary {
@@ -182,6 +341,108 @@ body {
     margin-top: 15px;
     font-weight: 500;
     display: none;
+}
+
+/* Toast notification style */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #2C8248;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.toast-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast-notification .toast-icon {
+    font-size: 1.3em;
+}
+
+.toast-notification .toast-message {
+    font-weight: 500;
+}
+
+.toast-notification .toast-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0 0 0 12px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.toast-notification .toast-close:hover {
+    opacity: 1;
+}
+
+/* Quick install guide (collapsible) */
+.quick-install-guide {
+    background: #f0f8ff;
+    border: 1px solid #d0e8f0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.quick-install-guide summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #17232D;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    user-select: none;
+}
+
+.quick-install-guide summary::-webkit-details-marker {
+    display: none;
+}
+
+.quick-install-guide summary::before {
+    content: '▶';
+    font-size: 0.7em;
+    transition: transform 0.2s;
+}
+
+.quick-install-guide[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.quick-install-guide .guide-content {
+    padding: 0 16px 16px 16px;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.quick-install-guide ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.quick-install-guide li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
+
+.quick-install-guide strong {
+    color: #2C8248;
 }
 
 /* ===================================
@@ -407,12 +668,21 @@ body {
 }
 
 /* ===================================
-   10. RESPONSIVE - MOBILE
+   11. RESPONSIVE - MOBILE
    =================================== */
 
 @media (max-width: 768px) {
+    body {
+        padding: 20px 15px;
+    }
+
     .main-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
     }
 
     .header-nav {
@@ -425,5 +695,59 @@ body {
         width: 100%;
         max-width: 280px;
         justify-content: center;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .card h2 {
+        font-size: 1.2em;
+    }
+
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        padding: 14px 20px;
+        font-size: 1em;
+    }
+
+    /* Tooltip adjustments for mobile */
+    .info-tooltip .tooltip-content {
+        left: auto;
+        right: 0;
+        transform: none;
+        max-width: 220px;
+    }
+
+    .info-tooltip .tooltip-content::after {
+        left: auto;
+        right: 15px;
+    }
+
+    /* Toast on mobile */
+    .toast-notification {
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+    }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+    .form-group input {
+        padding: 10px 12px;
+        padding-right: 36px;
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+
+    .specs-card {
+        padding: 12px;
+    }
+
+    .specs-card ul {
+        font-size: 0.85em;
     }
 }

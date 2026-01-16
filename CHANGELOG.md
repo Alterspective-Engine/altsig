@@ -2,6 +2,65 @@
 
 All notable changes to the AltSig Email Signature Generator project.
 
+## [3.2.0] - 2026-01-16
+
+### UI/UX Improvements - Enhanced User Experience
+
+**Purpose:** Improve the user experience with better feedback, validation, and modern interaction patterns.
+
+**New Features:**
+
+1. **Inline Form Validation**
+   - Real-time validation as you type
+   - Visual indicators (✓/✗) next to each field
+   - Field-specific error messages (email format, mobile format)
+   - Color-coded input borders (green=valid, red=invalid)
+
+2. **Auto-Generate on Input**
+   - Signatures automatically generate as you type (500ms debounce)
+   - No need to click "Generate" button manually
+   - Instant preview updates
+
+3. **Toast Notifications**
+   - Modern toast-style success/error messages
+   - Appears in bottom-right corner
+   - Auto-dismisses after 5 seconds
+   - Can be manually closed
+
+4. **Quick Install Guides**
+   - Collapsible install instructions above each preview
+   - 4-step quick guide for Outlook setup
+   - Separate instructions for New Email vs Reply signatures
+
+5. **Signature Type Tooltips**
+   - Hover "?" icon to see when to use each signature
+   - Explains purpose of New Email vs Reply signatures
+   - Helps users understand the dual-signature concept
+
+6. **Loading States**
+   - Spinner on Generate button during generation
+   - Visual feedback for all actions
+
+7. **Improved Mobile Experience**
+   - Better touch targets
+   - Responsive toast notifications
+   - Optimized input sizing (prevents iOS zoom)
+   - Stacked action buttons on mobile
+
+**Technical Implementation:**
+- Added validation state management in UIController
+- Debounced auto-generation to prevent excessive updates
+- New CSS classes for validation states, loading, and toasts
+- ARIA labels for accessibility
+- No changes to signature generation logic
+
+**Files Modified:**
+- `public/index.html` - Form validation markup, tooltips, quick guides, toast element
+- `public/assets/styles/main.css` - Validation styles, toast, tooltips, loading states, mobile improvements
+- `public/assets/scripts/ui-controller.js` - Validation logic, auto-generate, toast notifications
+
+---
+
 ## [3.1.1] - 2026-01-16
 
 ### Documentation - Chronicle Display Font Limitation
