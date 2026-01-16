@@ -141,15 +141,13 @@ export class SignatureGenerator {
     /**
      * Generate Reply Signature (Compact Version)
      * Clean three-line format: Name/Title on line 1, Email on line 2, Mobile on line 3
+     * No logo - text only for minimal email chain footprint
      * @param {Object} data - Form data {fullName, jobTitle, email, mobile}
      * @returns {string} Complete HTML document with compact signature
      */
     generateReplySignature(data) {
         // Validate required fields
         this._validateData(data);
-
-        // Get logo source
-        const logoSrc = this.config.logo.base64 || this.config.logo.fallbackPath;
 
         // Format phone number
         const mobileForLink = this._formatPhoneForLink(data.mobile);
@@ -158,7 +156,7 @@ export class SignatureGenerator {
         const spec = this.config.signatures.reply;
         const colors = this.config.colors;
 
-        // Generate compact three-line HTML document
+        // Generate compact three-line HTML document (no logo)
         return `<!DOCTYPE html>
 <html>
 <head>
@@ -173,21 +171,9 @@ export class SignatureGenerator {
 </head>
 <body style="margin: 0; padding: 0; font-family: ${this.config.fonts.signatureBody};">
 
-    <!-- REPLY SIGNATURE TABLE - COMPACT THREE-LINE VERSION -->
+    <!-- REPLY SIGNATURE TABLE - COMPACT TEXT-ONLY VERSION -->
     <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${this.config.fonts.signatureBody}; border-collapse: collapse;">
         <tr>
-            <!-- Logo Symbol (40x40px) with vertical divider -->
-            <td rowspan="3" style="vertical-align: middle; padding-right: ${spec.spacing}px; border-right: ${spec.divider.width}px solid ${spec.divider.color};">
-                <img src="${logoSrc}"
-                     alt="${this.config.logo.alt}"
-                     width="${spec.logo.width}"
-                     height="${spec.logo.height}"
-                     style="display: block; border: 0;">
-            </td>
-
-            <!-- Spacer after logo/divider -->
-            <td rowspan="3" style="width: ${spec.spacing}px;">&nbsp;</td>
-
             <!-- Line 1: Name & Job Title -->
             <td style="font-family: ${this.config.fonts.signatureBody}; font-size: ${spec.fontSize.name}px; font-weight: 600; color: ${colors.navy}; padding: 0 0 2px 0; line-height: 1.2;">
                 ${this._escapeHtml(data.fullName)}<span style="color: ${colors.green}; font-weight: 400; font-size: ${spec.fontSize.title}px;"> • ${this._escapeHtml(data.jobTitle)}</span>

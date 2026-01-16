@@ -2,6 +2,24 @@
 
 All notable changes to the AltSig Email Signature Generator project.
 
+## [3.2.1] - 2026-01-16
+
+### Changed - Reply Signature Now Text-Only
+
+**Purpose:** Make the reply signature more compact by removing the logo.
+
+**Changes:**
+- Removed logo and divider from reply/compact signature
+- Reply signature is now text-only (Name • Title, Email, Mobile)
+- Updated tooltip and specs card to reflect the change
+- Even lighter footprint in email chains
+
+**Files Modified:**
+- `public/assets/scripts/signature-generator.js` - Removed logo from reply signature
+- `public/index.html` - Updated descriptions
+
+---
+
 ## [3.2.0] - 2026-01-16
 
 ### UI/UX Improvements - Enhanced User Experience
