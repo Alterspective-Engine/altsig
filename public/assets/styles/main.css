@@ -337,11 +337,93 @@ body {
 }
 
 /* ===================================
-   9. RESPONSIVE - MOBILE
+   9. HEADER NAVIGATION
+   =================================== */
+
+.header-nav {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.theme-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.95em;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.theme-nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.theme-nav-link .icon {
+    font-size: 1.2em;
+}
+
+.theme-nav-link .badge {
+    background: #ABDD65;
+    color: #17232D;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.info-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.info-nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.info-nav-link .icon {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* ===================================
+   10. RESPONSIVE - MOBILE
    =================================== */
 
 @media (max-width: 768px) {
     .main-grid {
         grid-template-columns: 1fr;
+    }
+
+    .header-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .theme-nav-link,
+    .info-nav-link {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
     }
 }
