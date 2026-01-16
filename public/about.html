@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Alterspective Email Signature Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/main.css">
+    <style>
+        /* About page specific styles */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .about-card h2 {
+            color: #17232D;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ABDD65;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .about-card h3 {
+            color: #17232D;
+            font-size: 1.15em;
+            margin: 25px 0 15px 0;
+            padding-left: 15px;
+            border-left: 3px solid #2C8248;
+        }
+
+        .about-card p {
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .about-card ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .about-card li {
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .about-card li strong {
+            color: #2C8248;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #075156;
+        }
+
+        .feature-item h4 {
+            color: #17232D;
+            font-size: 1em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-item p {
+            font-size: 0.9em;
+            margin: 0;
+            color: #555;
+        }
+
+        .font-sample {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .font-sample .name-sample {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 18px;
+            color: #17232D;
+            margin-bottom: 5px;
+        }
+
+        .font-sample .title-sample {
+            font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            color: #2C8248;
+            font-weight: 500;
+        }
+
+        .font-sample .body-sample {
+            font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            color: #17232D;
+            margin-top: 10px;
+        }
+
+        .compatibility-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        .compatibility-table th,
+        .compatibility-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .compatibility-table th {
+            background: #17232D;
+            color: white;
+            font-weight: 600;
+        }
+
+        .compatibility-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .compatibility-table .check {
+            color: #2C8248;
+            font-weight: bold;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: #E5EEEF;
+            color: #075156;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin: 2px;
+        }
+
+        .info-box {
+            background: #e8f5e9;
+            border-left: 4px solid #2C8248;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .info-box p {
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #FFA500;
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .warning-box p {
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95em;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+            margin-top: 15px;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .about-card {
+                padding: 25px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .compatibility-table {
+                font-size: 0.85em;
+            }
+
+            .compatibility-table th,
+            .compatibility-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="assets/images/Alterspective_Logo_reversed_FA.png" alt="Alterspective Logo" style="height: 50px; margin-bottom: 20px;">
+            <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 300; letter-spacing: -0.5px;">How It Works</h1>
+            <p style="opacity: 0.95; margin-bottom: 10px;">Understanding the Email Signature Generator</p>
+            <a href="index.html" class="back-link">
+                <span>←</span>
+                <span>Back to Signature Generator</span>
+            </a>
+        </div>
+
+        <div class="about-content">
+
+            <!-- What This App Does -->
+            <div class="about-card">
+                <h2><span>📧</span> What This App Does</h2>
+                <p>The Alterspective Email Signature Generator creates professional, brand-compliant email signatures that work reliably across all major email clients. It solves the common problem of email signatures breaking, losing formatting, or displaying incorrectly when copied into Outlook or other email applications.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4><span>🎨</span> Brand Consistency</h4>
+                        <p>Generates signatures that follow Alterspective's visual identity guidelines, including colors, fonts, and logo placement.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4><span>📱</span> Two Signature Types</h4>
+                        <p>Creates both a full signature for new emails and a compact version for replies and forwards.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4><span>📋</span> One-Click Copy</h4>
+                        <p>Copy your signature with embedded images directly to clipboard, ready to paste into Outlook.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4><span>💾</span> Download Option</h4>
+                        <p>Download signatures as HTML files for backup or manual installation on multiple devices.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How Signatures Are Generated -->
+            <div class="about-card">
+                <h2><span>⚙️</span> How Signatures Are Generated</h2>
+                <p>The generator uses a carefully engineered process to create email signatures that maintain their appearance across different email clients.</p>
+
+                <h3>1. Form Data Collection</h3>
+                <p>When you enter your information, the app validates each field to ensure proper formatting:</p>
+                <ul>
+                    <li><strong>Name and Title:</strong> Displayed prominently in your signature</li>
+                    <li><strong>Email:</strong> Validated for proper format and made clickable (mailto: link)</li>
+                    <li><strong>Mobile:</strong> Formatted with clickable tel: link for easy dialing on mobile devices</li>
+                    <li><strong>Website:</strong> Converted to a clickable HTTPS link</li>
+                </ul>
+
+                <h3>2. HTML Structure Generation</h3>
+                <p>The signature is built using <strong>table-based HTML layout</strong> rather than modern CSS (flexbox/grid). This is intentional because:</p>
+                <ul>
+                    <li>Tables have universal support across all email clients since the 1990s</li>
+                    <li>Microsoft Outlook uses Word's rendering engine, which doesn't support modern CSS</li>
+                    <li>Gmail strips many CSS properties but preserves table layouts</li>
+                </ul>
+
+                <div class="info-box">
+                    <p><strong>Technical Detail:</strong> All styling is applied using inline CSS attributes directly on HTML elements. External stylesheets and CSS classes are stripped by most email clients, so every style must be specified inline for reliability.</p>
+                </div>
+
+                <h3>3. Image Embedding</h3>
+                <p>The company logo is embedded directly into the signature using <strong>Base64 encoding</strong>. This means:</p>
+                <ul>
+                    <li>The image data is converted to text and included in the HTML</li>
+                    <li>No external server requests are needed to display the logo</li>
+                    <li>The signature works offline and won't show broken image placeholders</li>
+                    <li>Recipients see the logo immediately without downloading from a server</li>
+                </ul>
+
+                <h3>4. Two Signature Variants</h3>
+                <p>Each generation creates two versions optimized for different contexts:</p>
+                <ul>
+                    <li><strong>New Email Signature:</strong> Full 120x120px logo, complete contact details, website link, vertical divider</li>
+                    <li><strong>Reply Signature:</strong> Compact 40x40px logo, name and title combined, essential contact info only (70% smaller)</li>
+                </ul>
+            </div>
+
+            <!-- Fonts Used -->
+            <div class="about-card">
+                <h2><span>🔤</span> Typography and Fonts</h2>
+                <p>The signature uses carefully selected fonts that balance professionalism with reliable email client support.</p>
+
+                <h3>Why Not Chronicle Display?</h3>
+                <p>The Alterspective brand guidelines specify <strong>Chronicle Display</strong> as the primary serif typeface. However, email signatures cannot use Chronicle Display due to fundamental limitations of email clients:</p>
+
+                <div class="warning-box">
+                    <p><strong>Email Font Limitation:</strong> Email clients (especially Microsoft Outlook) do not support custom or embedded fonts. Unlike web pages, email HTML cannot load font files via @font-face or include embedded OTF/TTF fonts. This is a universal limitation across all email signature implementations.</p>
+                </div>
+
+                <table class="compatibility-table">
+                    <thead>
+                        <tr>
+                            <th>Email Client</th>
+                            <th>Custom Fonts</th>
+                            <th>What Happens</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Outlook (Windows)</strong></td>
+                            <td style="color: #c00;">✗ Not Supported</td>
+                            <td>Strips all @font-face declarations, ignores web fonts entirely</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outlook (Mac)</strong></td>
+                            <td style="color: #c00;">✗ Very Limited</td>
+                            <td>May attempt to load but often fails silently</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gmail</strong></td>
+                            <td style="color: #f90;">⚠ Partial</td>
+                            <td>Blocks external font loading for security reasons</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apple Mail</strong></td>
+                            <td class="check">✓ Supported</td>
+                            <td>Only client with reliable web font support</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Because Outlook is the primary email client for business communications, we must use <strong>web-safe fonts</strong> that are pre-installed on recipients' computers. Chronicle Display would only display correctly for Apple Mail users (a small minority of business email).</p>
+
+                <h3>Fonts Used in Signatures</h3>
+                <ul>
+                    <li><strong>Names:</strong> Georgia (serif) - The closest web-safe alternative to Chronicle Display, with similar elegant serif characteristics</li>
+                    <li><strong>Job Titles and Contact Info:</strong> Montserrat (sans-serif) - From the Alterspective brand guidelines, with Arial as fallback</li>
+                </ul>
+
+                <h3>Font Fallback Chain</h3>
+                <p>Each font declaration includes fallbacks to ensure readability even if the primary font is unavailable:</p>
+                <ul>
+                    <li><strong>For Names:</strong> <span class="tech-badge">Georgia</span> → <span class="tech-badge">Times New Roman</span> → <span class="tech-badge">Times</span> → <span class="tech-badge">serif</span></li>
+                    <li><strong>For Body:</strong> <span class="tech-badge">Montserrat</span> → <span class="tech-badge">Arial</span> → <span class="tech-badge">Helvetica</span> → <span class="tech-badge">sans-serif</span></li>
+                </ul>
+
+                <div class="info-box">
+                    <p><strong>Why Georgia?</strong> Georgia was designed by Matthew Carter specifically for screen readability. It shares Chronicle Display's elegant serif characteristics while being universally available on Windows, Mac, iOS, and Android devices.</p>
+                </div>
+
+                <div class="warning-box">
+                    <p><strong>Montserrat Note:</strong> While Montserrat is loaded via Google Fonts for the best appearance, Outlook and some other email clients will automatically fall back to Arial, which is installed on virtually all computers and maintains readability.</p>
+                </div>
+
+                <h3>Font Preview</h3>
+                <div class="font-sample">
+                    <div class="name-sample">John Smith</div>
+                    <div class="title-sample">Managing Director</div>
+                    <div class="body-sample">
+                        <strong style="color: #2C8248;">P:</strong> 0412 345 678<br>
+                        <strong style="color: #2C8248;">E:</strong> john.smith@alterspective.com.au
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Compatibility -->
+            <div class="about-card">
+                <h2><span>✅</span> Email Client Compatibility</h2>
+                <p>Ensuring signatures display correctly across different email clients is the primary technical challenge. Here's how we ensure compatibility on both Windows and Mac.</p>
+
+                <h3>Compatibility Matrix</h3>
+                <table class="compatibility-table">
+                    <thead>
+                        <tr>
+                            <th>Email Client</th>
+                            <th>Platform</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Outlook (New)</strong></td>
+                            <td>Windows</td>
+                            <td class="check">✓ Tested</td>
+                            <td>Full support, paste directly</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outlook (Classic)</strong></td>
+                            <td>Windows</td>
+                            <td class="check">✓ Tested</td>
+                            <td>Uses Word engine, tables essential</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outlook</strong></td>
+                            <td>Mac</td>
+                            <td class="check">✓ Tested</td>
+                            <td>Full support, paste directly</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outlook Web</strong></td>
+                            <td>Browser</td>
+                            <td class="check">✓ Tested</td>
+                            <td>Works on all browsers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gmail</strong></td>
+                            <td>Browser</td>
+                            <td class="check">✓ Compatible</td>
+                            <td>Tables and inline styles preserved</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apple Mail</strong></td>
+                            <td>Mac/iOS</td>
+                            <td class="check">✓ Compatible</td>
+                            <td>Best rendering of all clients</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Why Tables Instead of Modern CSS?</h3>
+                <p>Modern web development uses CSS Flexbox and Grid for layouts, but email clients don't support these:</p>
+                <ul>
+                    <li><strong>Outlook Windows</strong> uses Microsoft Word's rendering engine, which predates modern CSS</li>
+                    <li><strong>Gmail</strong> actively strips many CSS properties for security</li>
+                    <li><strong>Tables</strong> have been supported since HTML 3.2 (1997) and work everywhere</li>
+                </ul>
+
+                <h3>Key Compatibility Techniques Used</h3>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Table Layout</h4>
+                        <p>All positioning uses nested tables with cellpadding="0" and cellspacing="0" for precise control.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Inline Styles</h4>
+                        <p>Every style is applied directly on elements. No external CSS or style blocks.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Border-Based Dividers</h4>
+                        <p>Vertical lines use border-right property on content cells, not background colors on empty cells.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Fixed Dimensions</h4>
+                        <p>All sizes specified in pixels (px), never em, rem, or percentages.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>100% Line Height</h4>
+                        <p>Line-height always set to 100% for consistent spacing across Outlook versions.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Base64 Images</h4>
+                        <p>Logo embedded as data URI so it copies with the signature and displays offline.</p>
+                    </div>
+                </div>
+
+                <h3>Windows-Specific Considerations</h3>
+                <p>Microsoft Outlook on Windows is the most restrictive email client because it uses Word's rendering engine. Our signatures are specifically designed to:</p>
+                <ul>
+                    <li>Avoid CSS properties Word doesn't understand (margin, float, position)</li>
+                    <li>Use border-right for divider lines (Word strips background-color on empty cells)</li>
+                    <li>Specify explicit width/height on all images</li>
+                    <li>Use web-safe fonts with proper fallbacks</li>
+                </ul>
+
+                <h3>Mac-Specific Considerations</h3>
+                <p>Outlook for Mac uses a different rendering engine than Windows, with better CSS support. However, we maintain compatibility by:</p>
+                <ul>
+                    <li>Using the same table-based structure for consistency</li>
+                    <li>Ensuring signatures look identical on both platforms</li>
+                    <li>Testing copy/paste workflow in Outlook for Mac</li>
+                </ul>
+
+                <div class="info-box">
+                    <p><strong>Quality Assurance:</strong> Every signature template is tested by copying to Outlook on Windows and Mac, then sending test emails to verify the signature displays correctly in the recipient's email client.</p>
+                </div>
+            </div>
+
+            <!-- Technical Summary -->
+            <div class="about-card">
+                <h2><span>📊</span> Technical Summary</h2>
+
+                <h3>Technologies Used</h3>
+                <p>
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3 (limited subset)</span>
+                    <span class="tech-badge">JavaScript ES6+</span>
+                    <span class="tech-badge">Clipboard API</span>
+                    <span class="tech-badge">Base64 Encoding</span>
+                </p>
+
+                <h3>Signature Specifications</h3>
+                <table class="compatibility-table">
+                    <thead>
+                        <tr>
+                            <th>Specification</th>
+                            <th>New Email</th>
+                            <th>Reply</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Logo Size</td>
+                            <td>120 x 120 px</td>
+                            <td>40 x 40 px</td>
+                        </tr>
+                        <tr>
+                            <td>Divider Width</td>
+                            <td>2px</td>
+                            <td>1px</td>
+                        </tr>
+                        <tr>
+                            <td>Logo-Content Spacing</td>
+                            <td>15px</td>
+                            <td>10px</td>
+                        </tr>
+                        <tr>
+                            <td>Name Font Size</td>
+                            <td>16px</td>
+                            <td>14px</td>
+                        </tr>
+                        <tr>
+                            <td>Body Font Size</td>
+                            <td>12-13px</td>
+                            <td>13px</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Brand Colors</h3>
+                <p>
+                    <span class="tech-badge" style="background: #17232D; color: white;">Navy #17232D</span>
+                    <span class="tech-badge" style="background: #2C8248; color: white;">Green #2C8248</span>
+                    <span class="tech-badge" style="background: #ABDD65; color: #17232D;">Citrus #ABDD65</span>
+                    <span class="tech-badge" style="background: #075156; color: white;">Marine #075156</span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

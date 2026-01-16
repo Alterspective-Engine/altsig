@@ -2,6 +2,30 @@
 
 All notable changes to the AltSig Email Signature Generator project.
 
+## [3.1.1] - 2026-01-16
+
+### Documentation - Chronicle Display Font Limitation
+
+**Purpose:** Document why the brand font (Chronicle Display) cannot be used in email signatures.
+
+**Changes:**
+- Updated "How It Works" page (`about.html`) with new "Why Not Chronicle Display?" section
+- Added email client custom font compatibility table
+- Explained that email clients (especially Outlook) strip @font-face declarations
+- Documented that Georgia is used as the closest web-safe alternative to Chronicle Display
+- Added technical context about why Montserrat falls back to Arial in Outlook
+
+**Why This Matters:**
+Email signatures have fundamental limitations compared to web pages. Custom fonts like Chronicle Display cannot be embedded or loaded in email HTML because:
+- Outlook (Windows) uses Word's rendering engine which ignores web fonts entirely
+- Gmail blocks external font loading for security
+- Only Apple Mail reliably supports @font-face
+
+**Files Modified:**
+- `public/about.html` - Typography and Fonts section expanded
+
+---
+
 ## [3.1.0] - 2026-01-12
 
 ### Changed - Typography Update to Brand Guidelines
